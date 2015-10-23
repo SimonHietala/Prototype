@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_create_tag"
+            android:title="@string/menu_create_tag"
+            android:icon="@android:drawable/ic_menu_add" />
+
+        <item
+            android:id="@+id/nav_erase_tag"
+            android:title="@string/menu_erase_tag"
+            android:icon="@android:drawable/ic_menu_delete" />
+
+        <item
+            android:id="@+id/nav_task"
+            android:title="@string/menu_task" />
+
+        <item
+            android:id="@+id/nav_settings"
+            android:title="@string/menu_settings"
+            android:icon="@android:drawable/ic_menu_preferences"/>
+
+        <item
+            android:id="@+id/nav_history"
+            android:title="@string/menu_history"
+            android:icon="@android:drawable/ic_menu_today"/>
+
+        <item
+            android:id="@+id/nav_statistics"
+            android:title="@string/menu_statistics" />
+    </group>
+
+</menu>

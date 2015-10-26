@@ -12,6 +12,7 @@ public class WorkTask
     private String freeText;
     private Time startTime;
     private Time stopStime;
+    private boolean inMotion;
 
     public WorkTask(String activityName, String locationName, String freeText, Time startTime, Time stopStime) {
         this.taskName = activityName;
@@ -45,6 +46,11 @@ public class WorkTask
         return stopStime;
     }
 
+
+    public boolean isInMotion() {
+        return inMotion;
+    }
+
     public void setActivityName(String activityName) {
         this.taskName = activityName;
     }
@@ -65,5 +71,7 @@ public class WorkTask
         this.stopStime = stopStime;
     }
 
-
+    public void setInMotion(boolean inMotion) {
+        this.inMotion = inMotion;
+    }
 }

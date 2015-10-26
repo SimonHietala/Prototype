@@ -15,15 +15,23 @@
     <string name="menu_statistics">Statistics</string>
 
     <!-- Create tag  -->
-    <string name="create_name">Name</string>
+    <string name="create_task">Task</string>
     <string name="create_location">Location</string>
     <string name="create_gps">GPS</string>
-    <string name="create_free_text">Free-text</string>
+    <string name="create_notes">Notes</string>
     <string name="create_create">Create</string>
+    <string name="create_in_motion">In motion</string>
 
     <!-- Erase tag -->
     <string name="erase_information">Erasing a tag removes all data from the tag. \n\nTo erase the information on a tag touch the reader to the tag while holding down the erase button.
     </string>
     <string name="erase_erase">Erase</string>
+
+    <!-- Current task -->
+    <string name="task_save">Save</string>
+    <string name="task_location">Location: </string>
+    <string name="task_start_time">Start time: </string>
+    <string name="task_stop_time">Stop time: </string>
+    <string name="task_notes">Notes: </string>
 
 </resources>

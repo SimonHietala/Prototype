@@ -30,6 +30,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -144,6 +145,8 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_task)
         {
             setTitle(getString(R.string.menu_task));
+            fragment = new TaskFragment();
+            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "ACTIVITY").commit();
         }
 
         else if (id == R.id.nav_history)
@@ -184,10 +187,12 @@ public class MainActivity extends AppCompatActivity
             //Write to the tags
             if(createTagFragment != null && createTagFragment.isVisible() && createTagFragment.getButtonState())
             {
-                 Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+                //Tag related
+                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
                 NdefMessage ndefMessage = createNdefMessage(writeJson().toString() + "");
 
                 writeNdefMessage(tag, ndefMessage);
+
                 //Toast.makeText(this, "Tag written!", Toast.LENGTH_SHORT).show();
             }
 
@@ -201,7 +206,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             //Read the tags
-            /*
+
             else
             {
 
@@ -209,7 +214,15 @@ public class MainActivity extends AppCompatActivity
 
                 if(parcelables != null && parcelables.length > 0)
                 {
-                    readTextFromMessage((NdefMessage) parcelables[0]);
+                    String json = readTextFromMessage((NdefMessage) parcelables[0]);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("json", json);
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    TaskFragment fragment = new TaskFragment();
+                    fragment.setArguments(bundle);
+                    fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "ACTIVITY").commit();
+
                 }
 
                 else
@@ -217,11 +230,11 @@ public class MainActivity extends AppCompatActivity
                     Toast.makeText(this, "No NDEF message found!", Toast.LENGTH_LONG).show();
                 }
             }
-            */
+
         }
     }
 
-    private void readTextFromMessage(NdefMessage ndefMessage)
+    private String readTextFromMessage(NdefMessage ndefMessage)
     {
         NdefRecord[] ndefRecords = ndefMessage.getRecords();
 
@@ -233,7 +246,7 @@ public class MainActivity extends AppCompatActivity
 
             if(tagContent != null)
             {
-                readJson(tagContent);
+                return tagContent;
             }
         }
 
@@ -241,7 +254,7 @@ public class MainActivity extends AppCompatActivity
         {
             Toast.makeText(this, "No NDEF records found!", Toast.LENGTH_LONG).show();
         }
-
+        return null;
     }
 
     public String getTextFromNdefRecord (NdefRecord ndefRecord)
@@ -367,18 +380,18 @@ public class MainActivity extends AppCompatActivity
 
     private JSONObject writeJson()
     {
-        EditText txtName = (EditText) findViewById(R.id.etName);
+        EditText txtTask = (EditText) findViewById(R.id.etTask);
         EditText txtLocation = (EditText) findViewById(R.id.etLocation);
         EditText txtGps = (EditText) findViewById(R.id.etGps);
-        EditText txtFreeText = (EditText) findViewById(R.id.etFreeText);
+        EditText txtNotes = (EditText) findViewById(R.id.etNotes);
 
         JSONObject jsonObject = new JSONObject();
         try
         {
-            jsonObject.put("name", txtName.getText());
+            jsonObject.put("task", txtTask.getText());
             jsonObject.put("location", txtLocation.getText());
             jsonObject.put("gps", txtGps.getText());
-            jsonObject.put("freetext", txtFreeText.getText());
+            jsonObject.put("notes", txtNotes.getText());
         }
 
         catch (JSONException e)
@@ -392,15 +405,15 @@ public class MainActivity extends AppCompatActivity
 
     private void readJson(String string)
     {
-        EditText txtName = (EditText) findViewById(R.id.etName);
+        EditText txtTask = (EditText) findViewById(R.id.etTask);
         EditText txtLocation = (EditText) findViewById(R.id.etLocation);
         EditText txtGps = (EditText) findViewById(R.id.etGps);
-        EditText txtFreeText = (EditText) findViewById(R.id.etFreeText);
+        EditText txtFreeText = (EditText) findViewById(R.id.etNotes);
 
         try
         {
             JSONObject jsonObject = new JSONObject(string);
-            txtName.setText(jsonObject.get("name").toString());
+            txtTask.setText(jsonObject.get("task").toString());
             //txtAge.setText(jsonObject.get("age").toString());
             //txtMood.setText(jsonObject.get("mood").toString());
 

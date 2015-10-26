@@ -4,19 +4,20 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/fab_margin">
+    android:padding="@dimen/fab_margin"
+    android:weightSum="1">
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvName"
+        android:id="@+id/tvTask"
         android:layout_marginTop="31dp"
-        android:text="@string/create_name" />
+        android:text="@string/create_task" />
 
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etName"/>
+        android:id="@+id/etTask"/>
 
     <TextView
         android:layout_width="fill_parent"
@@ -35,25 +36,44 @@
         android:text="@string/create_gps"
         android:id="@+id/tvGps"/>
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/etGps"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_weight="0.16">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etGps"
+            android:lines="2"
+            android:focusable="false"
+            android:layout_weight="1" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_in_motion"
+            android:id="@+id/cbMotion"
+            android:checked="false" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/create_free_text"
-        android:id="@+id/tvFreeText"/>
+        android:text="@string/create_notes"
+        android:id="@+id/tvNotes"/>
 
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etFreeText"/>
+        android:id="@+id/etNotes"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnCreate"
-        android:text="@string/create_create" />
+        android:text="@string/create_create"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

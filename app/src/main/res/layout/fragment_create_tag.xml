@@ -4,7 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/fab_margin"
     android:weightSum="1">
 
     <TextView
@@ -39,8 +38,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="51dp"
-        android:layout_weight="0.16">
+        android:layout_height="wrap_content">
 
         <EditText
             android:layout_width="wrap_content"

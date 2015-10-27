@@ -4,7 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/fab_margin"
     android:weightSum="1">
 
 
@@ -13,22 +12,23 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/taskTvTask"
+        android:id="@+id/rowTvTask"
         android:layout_gravity="center_horizontal" />
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="174dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:weightSum="1"
         android:layout_gravity="center_horizontal"
         android:id="@+id/taskLlTimer">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:id="@+id/taskImgStop"
-            android:src="@mipmap/ic_media_stop" />
+            android:src="@mipmap/ic_media_stop"
+            android:background="@null"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -37,11 +37,12 @@
             android:id="@+id/TaskTvTimer"
             android:text="Timer" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:id="@+id/taskImgPause"
-            android:src="@android:drawable/ic_media_pause" />
+            android:src="@android:drawable/ic_media_pause"
+            android:background="@null" />
     </LinearLayout>
 
     <Button

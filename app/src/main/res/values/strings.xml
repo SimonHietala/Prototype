@@ -34,4 +34,14 @@
     <string name="task_stop_time">Stop time: </string>
     <string name="task_notes">Notes: </string>
 
+    <!-- History row -->
+    <string name="row_task">Task: </string>
+    <string name="row_time">Time: </string>
+    <string name="row_start_time">Start time: </string>
+    <string name="row_stop_time">Stop time: </string>
+    <string name="row_location">Location: </string>
+    <string name="row_gps">Gps: </string>
+    <string name="row_notes">Notes: </string>
+
+
 </resources>

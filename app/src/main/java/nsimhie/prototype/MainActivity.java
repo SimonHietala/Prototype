@@ -152,6 +152,8 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_history)
         {
             setTitle(getString(R.string.menu_history));
+            fragment = new HistoryFragment();
+            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "HISTORY").commit();
         }
 
         else if (id == R.id.nav_statistics)

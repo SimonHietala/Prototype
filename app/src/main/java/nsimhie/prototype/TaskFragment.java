@@ -1,7 +1,5 @@
 package nsimhie.prototype;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
@@ -16,7 +14,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class TaskFragment extends Fragment {
@@ -94,7 +91,7 @@ public class TaskFragment extends Fragment {
 
     public void setView(View rootView, String json){
         TextView tvLocation = (TextView) rootView.findViewById(R.id.taskTvLocation);
-        TextView tvTask = (TextView) rootView.findViewById(R.id.taskTvTask);
+        TextView tvTask = (TextView) rootView.findViewById(R.id.rowTvTask);
         TextView tvStart = (TextView) rootView.findViewById(R.id.taskTvStart);
         EditText etNotes = (EditText) rootView.findViewById(R.id.taskEtNotes);
 

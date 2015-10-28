@@ -16,6 +16,7 @@ public class WorkTask
     private String notes;
     private String gps;
     private boolean inMotion;
+    private boolean edited;
 
     public WorkTask(String task, String location, String freeText, String startTime, String stopTime) {
         this.task = task;
@@ -61,6 +62,10 @@ public class WorkTask
         return inMotion;
     }
 
+    public boolean isEdited() {
+        return edited;
+    }
+
     public void setTask(String task) {
         this.task = task;
     }
@@ -97,6 +102,7 @@ public class WorkTask
         this.gps = gps;
     }
 
-
-
+    public void setEdited(boolean edited) {
+        this.edited = edited;
+    }
 }

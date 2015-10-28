@@ -1,6 +1,7 @@
 package nsimhie.prototype;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +44,8 @@ public class HistoryRowAdapter extends BaseAdapter
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         View view = convertView;
+        int resource;
 
         if (view == null)
         {
@@ -52,8 +53,18 @@ public class HistoryRowAdapter extends BaseAdapter
             view = inflater.inflate(R.layout.history_row, null);
         }
 
+
+        /*
+       if (workTasks.get(position).isEdited())
+        {
+            view.setBackgroundColor(Color.RED);
+        }
+
+        */
+
         TextView task = (TextView) view.findViewById(R.id.rowTvTask);
         TextView time = (TextView) view.findViewById(R.id.rowTvTime);
+
         TextView start = (TextView) view.findViewById(R.id.rowTvStart);
         TextView stop = (TextView) view.findViewById(R.id.rowTvStop);
         TextView location = (TextView) view.findViewById(R.id.rowTvLocation);
@@ -62,6 +73,8 @@ public class HistoryRowAdapter extends BaseAdapter
 
         task.setText(workTasks.get(position).getTask());
         time.setText(workTasks.get(position).getTime());
+
+
         start.setText(workTasks.get(position).getStartTime());
         stop.setText(workTasks.get(position).getStopStime());
         location.setText(workTasks.get(position).getLocation());

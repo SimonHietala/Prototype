@@ -1,4 +1,4 @@
-package nsimhie.prototype;
+package nsimhie.prototype.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import nsimhie.prototype.HistoryRowAdapter;
+import nsimhie.prototype.R;
+import nsimhie.prototype.WorkTask;
 
 
 public class HistoryFragment extends Fragment
@@ -54,7 +58,6 @@ public class HistoryFragment extends Fragment
                 {
                     rl.setVisibility(View.GONE);
                 }
-                Toast.makeText(getActivity(),"clicked",Toast.LENGTH_SHORT).show();
             }
         });
 

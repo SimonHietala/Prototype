@@ -7,6 +7,7 @@ import java.sql.Time;
  */
 public class WorkTask
 {
+    private int id;
     private String task;
     private String location;
     private String freeText;
@@ -28,6 +29,10 @@ public class WorkTask
 
     public WorkTask(){
 
+    }
+
+    public int getId() {
+        return id;
     }
     
     public String getTask() {
@@ -104,5 +109,9 @@ public class WorkTask
 
     public void setEdited(boolean edited) {
         this.edited = edited;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

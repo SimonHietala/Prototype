@@ -1,4 +1,4 @@
-package nsimhie.prototype;
+package nsimhie.prototype.Fragments;
 
 import android.os.Bundle;
 import android.app.Fragment;
@@ -15,6 +15,8 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import nsimhie.prototype.R;
 
 public class TaskFragment extends Fragment {
     TextView timerTextView;
@@ -45,8 +47,12 @@ public class TaskFragment extends Fragment {
         startTime = System.currentTimeMillis();
         timerHandler.postDelayed(timerRunnable, 0);
 
-        String json = getArguments().getString("json");
-        setView(rootView, json);
+        if (getArguments()!=null)
+        {
+            String json = getArguments().getString("json");
+            setView(rootView, json);
+        }
+
 
 
         timerTextView = (TextView) rootView.findViewById(R.id.taskLlTimer).findViewById(R.id.TaskTvTimer);

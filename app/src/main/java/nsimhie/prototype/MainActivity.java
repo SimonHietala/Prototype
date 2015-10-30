@@ -1,12 +1,8 @@
 package nsimhie.prototype;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.PendingIntent;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NdefMessage;
@@ -17,10 +13,7 @@ import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -30,7 +23,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -38,10 +30,19 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import nsimhie.prototype.Fragments.AboutFragment;
+import nsimhie.prototype.Fragments.CreateTagFragment;
+import nsimhie.prototype.Fragments.EraseTagFragment;
+import nsimhie.prototype.Fragments.HelpFragment;
+import nsimhie.prototype.Fragments.HistoryFragment;
+import nsimhie.prototype.Fragments.SettingsFragment;
+import nsimhie.prototype.Fragments.TaskFragment;
 
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final String USER = "Jürgen";
     private NfcAdapter nfcAdapter;
+    private WorkTask currentTask = new WorkTask();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +54,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "onResume()", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "onResume()", Toast.LENGTH_SHORT).show();
 
         enableForegroundDispatchSystem();
 
@@ -107,6 +107,11 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Fragment fragment = null;
+            FragmentManager fragmentManager = getFragmentManager();
+            setTitle(getString(R.string.menu_settings));
+            fragment = new SettingsFragment();
+            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "SETTINGS").commit();
             return true;
         }
 
@@ -136,13 +141,14 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "ERASE_TAG").commit();
         }
 
-        else if (id == R.id.action_settings)
+        else if (id == R.id.nav_settings)
         {
             setTitle(getString(R.string.menu_settings));
-
+            fragment = new SettingsFragment();
+            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "SETTINGS").commit();
         }
 
-        else if (id == R.id.nav_task)
+        else if (id == R.id.nav_current_task)
         {
             setTitle(getString(R.string.menu_task));
             fragment = new TaskFragment();
@@ -161,6 +167,20 @@ public class MainActivity extends AppCompatActivity
             setTitle(getString(R.string.menu_statistics));
         }
 
+        else if (id == R.id.nav_about)
+        {
+            setTitle(getString(R.string.menu_about));
+            fragment = new AboutFragment();
+            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "ABOUT").commit();
+        }
+
+        else if (id == R.id.nav_help)
+        {
+            setTitle(getString(R.string.menu_help));
+            fragment = new HelpFragment();
+            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "HELP").commit();
+        }
+
         //Closes the menu
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -169,7 +189,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    /*
+     /*
         functions that handles the nfc-stuff.
 
      */
@@ -181,7 +201,7 @@ public class MainActivity extends AppCompatActivity
 
         if(intent.hasExtra(NfcAdapter.EXTRA_TAG))
         {
-            Toast.makeText(this, "NfcIntent!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "NfcIntent!", Toast.LENGTH_SHORT).show();
 
             CreateTagFragment createTagFragment = (CreateTagFragment)getFragmentManager().findFragmentByTag("CREATE_TAG");
             EraseTagFragment eraseTagFragment = (EraseTagFragment)getFragmentManager().findFragmentByTag("ERASE_TAG");
@@ -221,6 +241,7 @@ public class MainActivity extends AppCompatActivity
                     bundle.putString("json", json);
 
                     FragmentManager fragmentManager = getFragmentManager();
+                    setTitle(getString(R.string.menu_task));
                     TaskFragment fragment = new TaskFragment();
                     fragment.setArguments(bundle);
                     fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "ACTIVITY").commit();

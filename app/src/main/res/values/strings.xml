@@ -1,18 +1,20 @@
 <resources>
 
     <string name="app_name">Prototype</string>
+    <string name="navigation_drawer_close">Open menu</string>
+    <string name="navigation_drawer_open">Close menu</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_settings">Settings</string>
 
     <!-- Menu item -->
     <string name="menu_create_tag">Create tag</string>
     <string name="menu_erase_tag">Erase tag</string>
     <string name="menu_settings">Settings</string>
-    <string name="menu_task">Activity</string>
+    <string name="menu_current_task">Current task</string>
     <string name="menu_history">History</string>
     <string name="menu_statistics">Statistics</string>
+    <string name="menu_log_out">Log out</string>
+    <string name="menu_help">Help</string>
+    <string name="menu_about">About</string>
 
     <!-- Create tag  -->
     <string name="create_task">Task</string>
@@ -43,5 +45,22 @@
     <string name="row_gps">Gps: </string>
     <string name="row_notes">Notes: </string>
 
+    <!-- Settings -->
+    <string name="settings_name">Name: </string>
+    <string name="settings_pwd">Password: </string>
+    <string name="settings_mail">E-mail: </string>
+    <string name="settings_language">Language settings</string>
+    <string name="settings_notifications">Notifications</string>
+
+    <!-- About -->
+    <string name="about_text">This is a prototype system developed as a part of my master\'s thesis in computer science.</string>
+
+    <!-- Help -->
+    <string name="help_create_tag">Enter the tag data. Check the in motion box if the tag is not stationary. To create a tag hold down the create button and touch the tag to the reader.</string>
+    <string name="help_erase_tag">Erases all data from a tag. Hold down the erase button and touch the tag to the reader.</string>
+    <string name="help_statistics">Shows statistics.</string>
+    <string name="help_history">Shows the previously done tasks. Click the pen icon to edit a task. Click the play icon to start a new instance of the task.</string>
+    <string name="help_settings">Change the applications settings.</string>
+    <string name="help_current_task">Shows the current activity. You can stop and pause the activity. You can also add a note to the current activity. </string>
 
 </resources>

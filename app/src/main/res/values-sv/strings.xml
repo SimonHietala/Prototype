@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Prototyp</string>
+    <string name="create_create">Skapa</string>
+    <string name="create_gps">GPS</string>
+    <string name="create_in_motion">I rörelse</string>
+    <string name="create_location">Plats</string>
+    <string name="create_notes">Anteckningar</string>
+    <string name="create_task">Uppgift</string>
+    <string name="erase_erase">Rensa</string>
+    <string name="erase_information">Rensning av en tagg tar bort all data från taggen.\n\nFör att ta bort informationen på en tagg håll läsaren mot taggen medans du håller in knappen rensa.</string>
+    <string name="menu_about">Om</string>
+    <string name="menu_create_tag">Skapa tagg</string>
+    <string name="menu_erase_tag">Rensa tagg</string>
+    <string name="menu_help">Hjälp</string>
+    <string name="menu_history">Historik</string>
+    <string name="menu_log_out">Logga ut</string>
+    <string name="menu_settings">Inställningar</string>
+    <string name="menu_statistics">Statistik</string>
+    <string name="menu_task">Pågående uppgift</string>
+    <string name="row_gps">Gps: </string>
+    <string name="row_location">Plats: </string>
+    <string name="row_notes">Anteckningar: </string>
+    <string name="row_start_time">Starttid:</string>
+    <string name="row_stop_time">Stopptid: </string>
+    <string name="row_task">Uppgift: </string>
+    <string name="row_time">Tid: </string>
+    <string name="settings_language">Språkinställningar</string>
+    <string name="settings_mail">E-mail</string>
+    <string name="settings_name">Namn: </string>
+    <string name="settings_notifications">Notifikationer</string>
+    <string name="settings_pwd">Lösenord: </string>
+    <string name="task_location">Plats: </string>
+    <string name="task_notes">Anteckningar: </string>
+    <string name="task_save">Spara</string>
+    <string name="task_start_time">Starttid: </string>
+    <string name="task_stop_time">Stoptid: </string>
+    <string name="navigation_drawer_close">Öppna meny</string>
+    <string name="navigation_drawer_open">Stäng meny</string>
+    <string name="about_text">Detta är en prototyp som har utvecklats som en del av mitt examensarbete som civilingenjör i datateknik.</string>
+    <string name="help_current_task">Visar pågående uppgift. Du kan stoppa och pasusa uppgiften. Du kan även lägga till en anteckning rörande den uppgiften. </string>
+    <string name="help_create_tag">Fyll i datan som ska skrivas till taggen. Välj i rörelse om taggen kommer vara i rörelse. För att skapa en tagg hål ner knappen skapa och rör läsaren mot taggen.</string>
+    <string name="help_erase_tag">Tar bort all data från taggen. Håll ner knappen rensa och rör läsaren mot taggen</string>
+    <string name="help_history">Visar tidigare utförda uppgifter. Klicka på pennan för att redigera en uppgift. Klicka på play för att starta en ny uppgift av samma sort.</string>
+    <string name="help_settings">Ändra inställningarna i applikationen.</string>
+    <string name="help_statistics">Visar statistik.</string>
+</resources>

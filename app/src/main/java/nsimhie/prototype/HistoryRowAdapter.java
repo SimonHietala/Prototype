@@ -18,8 +18,6 @@ public class HistoryRowAdapter extends BaseAdapter
     private final Context context;
     private ArrayList<WorkTask> workTasks;
 
-
-
     public HistoryRowAdapter(ArrayList<WorkTask> workTasks,Context context)
     {
         this.workTasks = workTasks;
@@ -45,7 +43,6 @@ public class HistoryRowAdapter extends BaseAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        int resource;
 
         if (view == null)
         {

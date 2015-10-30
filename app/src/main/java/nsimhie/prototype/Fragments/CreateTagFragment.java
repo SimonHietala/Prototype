@@ -1,4 +1,4 @@
-package nsimhie.prototype;
+package nsimhie.prototype.Fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -21,6 +21,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
+import nsimhie.prototype.GPS;
+import nsimhie.prototype.R;
 
 /**
  * Created by nsimhie on 2015-10-22.
@@ -57,13 +60,13 @@ public class CreateTagFragment extends Fragment
                 if(isChecked)
                 {
                     etGps.setTextColor(Color.GRAY);
-                    Toast.makeText(getActivity(), "Checked", Toast.LENGTH_LONG).show();
+                    etGps.setFocusable(false);
                 }
 
                 else
                 {
                     etGps.setTextColor(Color.BLACK);
-                    Toast.makeText(getActivity(), "Unchecked", Toast.LENGTH_LONG).show();
+                    etGps.setFocusable(true);
                 }
 
             }
@@ -78,7 +81,7 @@ public class CreateTagFragment extends Fragment
                     case MotionEvent.ACTION_DOWN:
                         // Start
                         pushed = true;
-                        Toast.makeText(getActivity(), "Held down", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getActivity(), "Held down", Toast.LENGTH_LONG).show();
                         break;
                     case MotionEvent.ACTION_UP:
                         // End

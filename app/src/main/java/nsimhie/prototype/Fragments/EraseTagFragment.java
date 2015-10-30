@@ -1,4 +1,4 @@
-package nsimhie.prototype;
+package nsimhie.prototype.Fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import nsimhie.prototype.R;
 
 /**
  * Created by nsimhie on 2015-10-22.
@@ -32,7 +34,7 @@ public class EraseTagFragment extends Fragment
                     case MotionEvent.ACTION_DOWN:
                         // Start
                         pushed = true;
-                        Toast.makeText(getActivity(), "Held down", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getActivity(), "Held down", Toast.LENGTH_LONG).show();
                         break;
                     case MotionEvent.ACTION_UP:
                         // End

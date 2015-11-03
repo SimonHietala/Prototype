@@ -62,5 +62,6 @@
     <string name="help_history">Shows the previously done tasks. Click the pen icon to edit a task. Click the play icon to start a new instance of the task.</string>
     <string name="help_settings">Change the applications settings.</string>
     <string name="help_current_task">Shows the current activity. You can stop and pause the activity. You can also add a note to the current activity. </string>
+    <string name="menu_task">Current task</string>
 
 </resources>

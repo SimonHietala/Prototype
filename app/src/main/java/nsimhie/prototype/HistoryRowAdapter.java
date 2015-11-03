@@ -2,11 +2,18 @@ package nsimhie.prototype;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -59,24 +66,73 @@ public class HistoryRowAdapter extends BaseAdapter
 
         */
 
-        TextView task = (TextView) view.findViewById(R.id.rowTvTask);
-        TextView time = (TextView) view.findViewById(R.id.rowTvTime);
+        EditText etTask = (EditText) view.findViewById(R.id.rowMain).findViewById(R.id.rowEtTask);
+        EditText etTime = (EditText) view.findViewById(R.id.rowMain).findViewById(R.id.rowEtTime);
 
-        TextView start = (TextView) view.findViewById(R.id.rowTvStart);
-        TextView stop = (TextView) view.findViewById(R.id.rowTvStop);
-        TextView location = (TextView) view.findViewById(R.id.rowTvLocation);
-        TextView gps = (TextView) view.findViewById(R.id.rowTvGps);
-        TextView notes = (TextView) view.findViewById(R.id.rowTvNotes);
+        final EditText etStart = (EditText) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtStart);
+        EditText etStop = (EditText) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtStop);
+        EditText etLocation = (EditText) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtLocation);
+        EditText etGps = (EditText) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtGps);
+        EditText etNotes = (EditText) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtNotes);
 
-        task.setText(workTasks.get(position).getTask());
-        time.setText(workTasks.get(position).getTime());
+        etTask.setText(workTasks.get(position).getTask());
+        etTime.setText(workTasks.get(position).getTime());
+
+        etStart.setText(workTasks.get(position).getStartTime());
+        etStop.setText(workTasks.get(position).getStopStime());
+        etLocation.setText(workTasks.get(position).getLocation());
+        etGps.setText(workTasks.get(position).getGps());
+        etNotes.setText(workTasks.get(position).getNotes());
+
+        final View finalView = view;
+
+        //Listener for a click-event on a single row in the history
+        RelativeLayout main = (RelativeLayout) view.findViewById(R.id.historyRowLayout);
+        main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                TableLayout tableLayout = (TableLayout) finalView.findViewById(R.id.rowExpansion);
+
+                if(tableLayout.getVisibility() == View.GONE)
+                {
+                    tableLayout.setVisibility(View.VISIBLE);
+                    RelativeLayout main = (RelativeLayout) finalView.findViewById(R.id.historyRowLayout);
+                    main.setBackgroundColor(Color.LTGRAY);
+                }
+                else if (tableLayout.getVisibility() == View.VISIBLE)
+                {
+                    tableLayout.setVisibility(View.GONE);
+                    RelativeLayout main = (RelativeLayout) finalView.findViewById(R.id.historyRowLayout);
+                    main.setBackgroundColor(Color.TRANSPARENT);
+                }
+
+            }
+        });
+
+        //Listener for the click-event on the edit history button.
+        ImageButton edit = (ImageButton) view.findViewById(R.id.rowEditBtn);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RelativeLayout main = (RelativeLayout) finalView.findViewById(R.id.historyRowLayout);
+                main.setBackgroundColor(Color.LTGRAY);
+
+                TableLayout expansion = (TableLayout) finalView.findViewById(R.id.rowExpansion);
+                expansion.setVisibility(View.VISIBLE);
 
 
-        start.setText(workTasks.get(position).getStartTime());
-        stop.setText(workTasks.get(position).getStopStime());
-        location.setText(workTasks.get(position).getLocation());
-        gps.setText(workTasks.get(position).getGps());
-        notes.setText(workTasks.get(position).getNotes());
+
+            }
+        });
+
+        //Listener for play-button.
+        ImageButton play = (ImageButton) view.findViewById(R.id.rowPlayBtn);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
 
         return view;
     }

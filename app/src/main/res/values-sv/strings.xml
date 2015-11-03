@@ -44,4 +44,5 @@
     <string name="help_history">Visar tidigare utförda uppgifter. Klicka på pennan för att redigera en uppgift. Klicka på play för att starta en ny uppgift av samma sort.</string>
     <string name="help_settings">Ändra inställningarna i applikationen.</string>
     <string name="help_statistics">Visar statistik.</string>
+    <string name="menu_current_task">Pågående uppgift</string>
 </resources>

@@ -45,7 +45,7 @@ public class HelpFragment extends Fragment {
 
                 //parent.getChildAt(position).setBackgroundColor(Color.BLUE);
 
-                TextView infoText = (TextView) parent.getChildAt(position).findViewById(R.id.helpTvInfo);
+                TextView infoText = (TextView) view.findViewById(R.id.helpTvInfo);
 
                 if (infoText.getVisibility() == View.GONE) {
                     infoText.setVisibility(View.VISIBLE);

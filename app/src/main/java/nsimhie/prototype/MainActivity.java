@@ -2,6 +2,7 @@ package nsimhie.prototype;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -84,9 +85,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START))
+        {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+
+        //Pops the backstack
+        else if (getFragmentManager().getBackStackEntryCount() > 0)
+        {
+            //Gets the current fragment and calls setTitle with the fragment
+            if(getFragmentManager().getBackStackEntryCount() > 1)
+            {
+                FragmentManager.BackStackEntry backEntry = getFragmentManager().getBackStackEntryAt(getFragmentManager().getBackStackEntryCount() - 2);
+                String str=backEntry.getName();
+                Fragment fragment=getFragmentManager().findFragmentByTag(str);
+                setTitle(fragment);
+            }
+
+            else
+            {
+                setTitle(getString(R.string.app_name));
+            }
+
+            getFragmentManager().popBackStack();
+        }
+        else
+        {
             super.onBackPressed();
         }
     }
@@ -107,11 +131,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Fragment fragment = null;
-            FragmentManager fragmentManager = getFragmentManager();
+
+            Fragment fragment = new SettingsFragment();
+            replaceFragment(fragment);
             setTitle(getString(R.string.menu_settings));
-            fragment = new SettingsFragment();
-            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "SETTINGS").commit();
             return true;
         }
 
@@ -124,13 +147,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment fragment = null;
-        FragmentManager fragmentManager = getFragmentManager();
 
         if (id == R.id.nav_create_tag)
         {
             setTitle(getString(R.string.menu_create_tag));
             fragment = new CreateTagFragment();
-            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "CREATE_TAG").commit();
+            replaceFragment(fragment);
+
+            //FragmentManager fragmentManager = getFragmentManager();
+            //fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "CREATE_TAG").addToBackStack(null).commit();
 
         }
 
@@ -138,28 +163,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             setTitle(getString(R.string.menu_erase_tag));
             fragment = new EraseTagFragment();
-            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "ERASE_TAG").commit();
+            replaceFragment(fragment);
         }
 
         else if (id == R.id.nav_settings)
         {
             setTitle(getString(R.string.menu_settings));
             fragment = new SettingsFragment();
-            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "SETTINGS").commit();
+            replaceFragment(fragment);
         }
 
         else if (id == R.id.nav_current_task)
         {
             setTitle(getString(R.string.menu_task));
             fragment = new TaskFragment();
-            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "ACTIVITY").commit();
+            replaceFragment(fragment);
         }
 
         else if (id == R.id.nav_history)
         {
             setTitle(getString(R.string.menu_history));
             fragment = new HistoryFragment();
-            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "HISTORY").commit();
+            replaceFragment(fragment);
         }
 
         else if (id == R.id.nav_statistics)
@@ -171,14 +196,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             setTitle(getString(R.string.menu_about));
             fragment = new AboutFragment();
-            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "ABOUT").commit();
+            replaceFragment(fragment);
         }
 
         else if (id == R.id.nav_help)
         {
             setTitle(getString(R.string.menu_help));
             fragment = new HelpFragment();
-            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "HELP").commit();
+            replaceFragment(fragment);
         }
 
         //Closes the menu
@@ -187,6 +212,66 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
 
     }
+
+    //Function that changes the fragment. And adds to the backstack.
+    private void replaceFragment (Fragment fragment){
+        String backStateName =  fragment.getClass().getName();
+        String fragmentTag = backStateName;
+
+        FragmentManager manager = getFragmentManager();
+        boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
+
+        //fragment not in back stack, create it.
+        if (!fragmentPopped && manager.findFragmentByTag(fragmentTag) == null){
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(R.id.frame_container, fragment, fragmentTag);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.addToBackStack(backStateName);
+            ft.commit();
+        }
+    }
+
+    private void setTitle(Fragment fragment)
+    {
+        String backStateName =  fragment.getClass().getName();
+        if(backStateName.equals(new CreateTagFragment().getClass().getName()))
+        {
+            setTitle(getString(R.string.menu_create_tag));
+        }
+
+        else if(backStateName.equals(new EraseTagFragment().getClass().getName()))
+        {
+            setTitle(getString(R.string.menu_erase_tag));
+        }
+
+        else if(backStateName.equals(new HelpFragment().getClass().getName()))
+        {
+            setTitle(getString(R.string.menu_help));
+        }
+
+        else if(backStateName.equals(new HistoryFragment().getClass().getName()))
+        {
+            setTitle(getString(R.string.menu_history));
+        }
+
+        else if(backStateName.equals(new TaskFragment().getClass().getName()))
+        {
+            setTitle(getString(R.string.menu_current_task));
+        }
+
+        else if(backStateName.equals(new SettingsFragment().getClass().getName()))
+        {
+            setTitle(getString(R.string.menu_settings));
+        }
+
+        else if(backStateName.equals(new AboutFragment().getClass().getName()))
+        {
+            setTitle(getString(R.string.menu_about));
+        }
+
+
+    }
+
 
 
      /*
@@ -244,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     setTitle(getString(R.string.menu_task));
                     TaskFragment fragment = new TaskFragment();
                     fragment.setArguments(bundle);
-                    fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "ACTIVITY").commit();
+                    fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "ACTIVITY").addToBackStack(null).commit();
 
                 }
 

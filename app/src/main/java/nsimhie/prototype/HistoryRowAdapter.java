@@ -1,21 +1,29 @@
 package nsimhie.prototype;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
+import android.nfc.NdefMessage;
+import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import nsimhie.prototype.Fragments.HistoryEditFragment;
+import nsimhie.prototype.Fragments.TaskFragment;
 
 /**
  * Created by nsimhie on 2015-10-27.
@@ -24,11 +32,13 @@ public class HistoryRowAdapter extends BaseAdapter
 {
     private final Context context;
     private ArrayList<WorkTask> workTasks;
+    private FragmentManager manager;
 
-    public HistoryRowAdapter(ArrayList<WorkTask> workTasks,Context context)
+    public HistoryRowAdapter(ArrayList<WorkTask> workTasks, Context context, FragmentManager manager)
     {
         this.workTasks = workTasks;
         this.context = context;
+        this.manager = manager;
     }
 
     @Override
@@ -50,6 +60,7 @@ public class HistoryRowAdapter extends BaseAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
+        final int finalPosition = position;
 
         if (view == null)
         {
@@ -57,23 +68,21 @@ public class HistoryRowAdapter extends BaseAdapter
             view = inflater.inflate(R.layout.history_row, null);
         }
 
-
-        /*
        if (workTasks.get(position).isEdited())
         {
             view.setBackgroundColor(Color.RED);
         }
 
-        */
 
-        EditText etTask = (EditText) view.findViewById(R.id.rowMain).findViewById(R.id.rowEtTask);
-        EditText etTime = (EditText) view.findViewById(R.id.rowMain).findViewById(R.id.rowEtTime);
 
-        final EditText etStart = (EditText) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtStart);
-        EditText etStop = (EditText) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtStop);
-        EditText etLocation = (EditText) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtLocation);
-        EditText etGps = (EditText) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtGps);
-        EditText etNotes = (EditText) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtNotes);
+        TextView etTask = (TextView) view.findViewById(R.id.rowMain).findViewById(R.id.rowEtTask);
+
+        TextView etTime = (TextView) view.findViewById(R.id.rowMain).findViewById(R.id.rowEtTime);
+        TextView etStart = (TextView) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtStart);
+        TextView etStop = (TextView) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtStop);
+        TextView etLocation = (TextView) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtLocation);
+        TextView etGps = (TextView) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtGps);
+        TextView etNotes = (TextView) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtNotes);
 
         etTask.setText(workTasks.get(position).getTask());
         etTime.setText(workTasks.get(position).getTime());
@@ -94,17 +103,28 @@ public class HistoryRowAdapter extends BaseAdapter
 
                 TableLayout tableLayout = (TableLayout) finalView.findViewById(R.id.rowExpansion);
 
+                //Showes the clicked row
                 if(tableLayout.getVisibility() == View.GONE)
                 {
                     tableLayout.setVisibility(View.VISIBLE);
                     RelativeLayout main = (RelativeLayout) finalView.findViewById(R.id.historyRowLayout);
                     main.setBackgroundColor(Color.LTGRAY);
                 }
+
+                //Hides the clicked row
                 else if (tableLayout.getVisibility() == View.VISIBLE)
                 {
                     tableLayout.setVisibility(View.GONE);
                     RelativeLayout main = (RelativeLayout) finalView.findViewById(R.id.historyRowLayout);
-                    main.setBackgroundColor(Color.TRANSPARENT);
+
+                    if(workTasks.get(finalPosition).isEdited())
+                    {
+                        main.setBackgroundColor(Color.RED);
+                    }
+                    else
+                    {
+                        main.setBackgroundColor(Color.TRANSPARENT);
+                    }
                 }
 
             }
@@ -115,13 +135,10 @@ public class HistoryRowAdapter extends BaseAdapter
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RelativeLayout main = (RelativeLayout) finalView.findViewById(R.id.historyRowLayout);
-                main.setBackgroundColor(Color.LTGRAY);
-
-                TableLayout expansion = (TableLayout) finalView.findViewById(R.id.rowExpansion);
-                expansion.setVisibility(View.VISIBLE);
-
-
+                //Start the edit history fragment
+                HistoryEditFragment fragment = new HistoryEditFragment(workTasks, finalPosition);
+                String backStateName =  fragment.getClass().getName();
+                manager.beginTransaction().replace(R.id.frame_container, fragment, backStateName).addToBackStack(backStateName).commit();
 
             }
         });
@@ -136,4 +153,5 @@ public class HistoryRowAdapter extends BaseAdapter
 
         return view;
     }
+
 }

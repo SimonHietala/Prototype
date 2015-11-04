@@ -45,4 +45,7 @@
     <string name="help_settings">Ändra inställningarna i applikationen.</string>
     <string name="help_statistics">Visar statistik.</string>
     <string name="menu_current_task">Pågående uppgift</string>
+    <string name="row_save">Spara</string>
+    <string name="row_cancel">Avbryt</string>
+    <string name="row_back_info">Spara dina ändringar eller avbryt redigering.</string>
 </resources>

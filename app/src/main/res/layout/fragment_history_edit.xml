@@ -11,8 +11,7 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rowMain"
-        android:layout_toStartOf="@+id/rowEditBtn">
+        android:id="@+id/rowMain">
 
         <TableRow
             android:layout_width="match_parent"
@@ -25,7 +24,7 @@
                 android:text="@string/row_task"
                 android:id="@+id/rowTvTask"/>
 
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -47,8 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/rowEtTime"
-                android:inputType="text"/>
+                android:textColor="@android:color/black"
+                android:id="@+id/rowEtTime" />
         </TableRow>
 
     </TableLayout>
@@ -58,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rowMain"
         android:id="@+id/rowExpansion"
-        android:visibility="gone"
+        android:visibility="visible"
         android:orientation="vertical"
         android:shrinkColumns="1">
 
@@ -75,7 +74,7 @@
                 android:id="@+id/rowTvStart"
                 android:layout_column="0" />
 
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -94,7 +93,7 @@
                 android:text="@string/row_stop_time"
                 android:id="@+id/rowTvStop" />
 
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -112,7 +111,7 @@
                 android:text="@string/row_location"
                 android:id="@+id/rowTvLocation"/>
 
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -130,7 +129,7 @@
                 android:text="@string/row_gps"
                 android:id="@+id/rowTvGps"/>
 
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -148,7 +147,7 @@
                 android:text="@string/row_notes"
                 android:id="@+id/rowTvNotes"/>
 
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -157,34 +156,15 @@
 
     </TableLayout>
 
-    <ImageButton
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:id="@+id/rowEditBtn"
-        android:src="@android:drawable/ic_menu_edit"
-        android:background="@null"
-        android:layout_marginEnd="38dp"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/rowPlayBtn" />
-
-    <ImageButton
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:id="@+id/rowPlayBtn"
-        android:src="@android:drawable/ic_media_play"
-        android:background="@null"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
-
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/row_save"
         android:id="@+id/rowSaveBtn"
+        android:visibility="visible"
         android:layout_below="@+id/rowExpansion"
-        android:layout_alignEnd="@+id/rowPlayBtn"
-        android:visibility="gone"/>
+        android:layout_alignParentEnd="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -192,9 +172,10 @@
         android:layout_height="wrap_content"
         android:text="@string/row_cancel"
         android:id="@+id/rowCancelBtn"
-        android:layout_alignBottom="@+id/rowSaveBtn"
-        android:layout_alignEnd="@+id/rowEditBtn"
-        android:visibility="gone" />
+        android:visibility="visible"
+        android:layout_alignTop="@+id/rowSaveBtn"
+        android:layout_toStartOf="@+id/rowSaveBtn"
+        android:layout_marginEnd="40dp" />
 
 
 </RelativeLayout>

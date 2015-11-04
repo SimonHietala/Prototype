@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -25,19 +24,19 @@ import nsimhie.prototype.WorkTask;
 
 public class HistoryFragment extends Fragment
 {
-    private ListView listView;
-    private ArrayList<WorkTask> workTasks = new ArrayList<>();
-    private HistoryRowAdapter adapter;
+    public ArrayList<WorkTask> workTasksHistory = new ArrayList<>();
 
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_history, container, false);
-        listView = (ListView) rootView.findViewById(R.id.historyListView);
+        ListView listView = (ListView) rootView.findViewById(R.id.historyListView);
 
-        adapter = new HistoryRowAdapter(workTasks, getActivity());
+        HistoryRowAdapter adapter = new HistoryRowAdapter(workTasksHistory, getActivity(), getActivity().getFragmentManager());
         listView.setAdapter(adapter);
 
         //Fake data
-        fakeData();
+        if (workTasksHistory.size() == 0){
+            fakeData();
+        }
 
         adapter.notifyDataSetChanged();
 
@@ -55,7 +54,7 @@ public class HistoryFragment extends Fragment
         wt.setGps("65 , 22");
         wt.setNotes("Jag har jobbat lite.");
         wt.setEdited(false);
-        workTasks.add(wt);
+        workTasksHistory.add(wt);
 
         WorkTask wt1 = new WorkTask();
         wt1.setTask("Plugga");
@@ -65,7 +64,7 @@ public class HistoryFragment extends Fragment
         wt1.setLocation("skolan");
         wt1.setGps("65 , 22");
         wt1.setNotes("Asta blev arg.");
-        workTasks.add(wt1);
+        workTasksHistory.add(wt1);
 
         WorkTask wt2 = new WorkTask();
         wt2.setTask("jobba");
@@ -75,7 +74,7 @@ public class HistoryFragment extends Fragment
         wt2.setLocation("kontoret");
         wt2.setGps("65 , 22");
         wt2.setNotes("Jag har jobbat väldigt hårt idag, men jag undrar hur det ser ut om jag skriver något väldigt långt här.");
-        workTasks.add(wt2);
+        workTasksHistory.add(wt2);
 
         WorkTask wt3 = new WorkTask();
         wt3.setTask("hoppa");
@@ -86,7 +85,7 @@ public class HistoryFragment extends Fragment
         wt3.setGps("65 , 22");
         wt3.setNotes("Jag har jobbat väldigt hårt idag.");
         wt3.setEdited(true);
-        workTasks.add(wt3);
+        workTasksHistory.add(wt3);
 
         WorkTask wt4 = new WorkTask();
         wt4.setTask("jobba");
@@ -96,7 +95,7 @@ public class HistoryFragment extends Fragment
         wt4.setLocation("kontoret");
         wt4.setGps("65 , 22");
         wt4.setNotes("Jag har jobbat väldigt hårt idag.");
-        workTasks.add(wt4);
+        workTasksHistory.add(wt4);
 
     }
 }

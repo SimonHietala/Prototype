@@ -44,6 +44,11 @@
     <string name="row_location">Location: </string>
     <string name="row_gps">Gps: </string>
     <string name="row_notes">Notes: </string>
+    <string name="row_save">Save</string>
+    <string name="row_cancel">Cancel</string>
+    <string name="row_back_info">Save your changes or cancel editing.</string>
+
+
 
     <!-- Settings -->
     <string name="settings_name">Name: </string>

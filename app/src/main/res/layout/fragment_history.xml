@@ -10,5 +10,5 @@ android:weightSum="1">
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/historyListView"
-    android:listSelector="@android:color/darker_gray"  />
+    android:listSelector="@android:color/darker_gray"/>
 </LinearLayout>

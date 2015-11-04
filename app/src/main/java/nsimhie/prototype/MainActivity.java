@@ -35,6 +35,7 @@ import nsimhie.prototype.Fragments.AboutFragment;
 import nsimhie.prototype.Fragments.CreateTagFragment;
 import nsimhie.prototype.Fragments.EraseTagFragment;
 import nsimhie.prototype.Fragments.HelpFragment;
+import nsimhie.prototype.Fragments.HistoryEditFragment;
 import nsimhie.prototype.Fragments.HistoryFragment;
 import nsimhie.prototype.Fragments.SettingsFragment;
 import nsimhie.prototype.Fragments.TaskFragment;
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START))
         {
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             {
                 FragmentManager.BackStackEntry backEntry = getFragmentManager().getBackStackEntryAt(getFragmentManager().getBackStackEntryCount() - 2);
                 String str=backEntry.getName();
-                Fragment fragment=getFragmentManager().findFragmentByTag(str);
+                Fragment fragment = getFragmentManager().findFragmentByTag(str);
                 setTitle(fragment);
             }
 
@@ -214,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     //Function that changes the fragment. And adds to the backstack.
-    private void replaceFragment (Fragment fragment){
+    public void replaceFragment (Fragment fragment){
         String backStateName =  fragment.getClass().getName();
         String fragmentTag = backStateName;
 

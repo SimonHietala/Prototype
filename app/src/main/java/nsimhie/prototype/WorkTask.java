@@ -10,7 +10,6 @@ public class WorkTask
     private int id;
     private String task;
     private String location;
-    private String freeText;
     private String startTime;
     private String stopStime;
     private String time;
@@ -19,10 +18,10 @@ public class WorkTask
     private boolean inMotion;
     private boolean edited;
 
-    public WorkTask(String task, String location, String freeText, String startTime, String stopTime) {
+    public WorkTask(String task, String location, String notes, String startTime, String stopTime) {
         this.task = task;
         this.location = location;
-        this.freeText = freeText;
+        this.notes = notes;
         this.startTime = startTime;
         this.stopStime = stopTime;
     }
@@ -77,10 +76,6 @@ public class WorkTask
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public void setFreeText(String freeText) {
-        this.freeText = freeText;
     }
 
     public void setStartTime(String startTime) {

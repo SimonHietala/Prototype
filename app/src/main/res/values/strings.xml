@@ -34,6 +34,7 @@
     <string name="task_location">Location: </string>
     <string name="task_start_time">Start time: </string>
     <string name="task_stop_time">Stop time: </string>
+    <string name="task_gps">Gps: </string>
     <string name="task_notes">Notes: </string>
 
     <!-- History row -->

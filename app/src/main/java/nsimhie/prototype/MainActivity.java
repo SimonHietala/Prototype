@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Nfc related
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
+        InternetConnection ic = new InternetConnection(this);
+        ic.getRequest("/get");
+
     }
 
     @Override
@@ -289,9 +292,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(intent.hasExtra(NfcAdapter.EXTRA_TAG))
         {
             //Toast.makeText(this, "NfcIntent!", Toast.LENGTH_SHORT).show();
+            String createTag = CreateTagFragment.class.getName();
+            String eraseTag = EraseTagFragment.class.getName();
 
-            CreateTagFragment createTagFragment = (CreateTagFragment)getFragmentManager().findFragmentByTag("CREATE_TAG");
-            EraseTagFragment eraseTagFragment = (EraseTagFragment)getFragmentManager().findFragmentByTag("ERASE_TAG");
+            CreateTagFragment createTagFragment = (CreateTagFragment)getFragmentManager().findFragmentByTag(createTag);
+            EraseTagFragment eraseTagFragment = (EraseTagFragment)getFragmentManager().findFragmentByTag(eraseTag);
 
             //Write to the tags
             if(createTagFragment != null && createTagFragment.isVisible() && createTagFragment.getButtonState())

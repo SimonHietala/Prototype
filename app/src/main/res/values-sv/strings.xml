@@ -48,4 +48,5 @@
     <string name="row_save">Spara</string>
     <string name="row_cancel">Avbryt</string>
     <string name="row_back_info">Spara dina ändringar eller avbryt redigering.</string>
+    <string name="task_gps">Gps:</string>
 </resources>

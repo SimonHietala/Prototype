@@ -34,11 +34,6 @@ public class CreateTagFragment extends Fragment
 
     public CreateTagFragment(){}
 
-    public void OnCreate(Bundle savedInstanceState)
-    {
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -48,15 +43,15 @@ public class CreateTagFragment extends Fragment
 
         //Get the gps location
         GPS gps = new GPS(getActivity());
-        final String text = Double.toString(gps.getLatitude()) + "\n" + Double.toString(gps.getLongitude());
-        etGps.setText(text);
+        etGps.setText(gps.getCoordinates());
         gps.stopGPS();
 
         final CheckBox checkBox = (CheckBox)rootView.findViewById(R.id.cbMotion);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // update your model (or other business logic) based on isChecked
+
+                // update when state changes
                 if(isChecked)
                 {
                     etGps.setTextColor(Color.GRAY);

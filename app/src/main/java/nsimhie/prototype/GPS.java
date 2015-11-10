@@ -137,6 +137,11 @@ public class GPS extends Service implements LocationListener
         return this.longitude;
     }
 
+    public String getCoordinates()
+    {
+        return Double.toString(getLatitude()) + "\n" + Double.toString(getLongitude());
+    }
+
     public boolean canGetLocation()
     {
         return this.canGetLocation;

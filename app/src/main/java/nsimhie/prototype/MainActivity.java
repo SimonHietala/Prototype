@@ -23,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
         InternetConnection ic = new InternetConnection(this);
-        ic.getRequest("/get");
+        ic.getRequest("/worktasks/1");
 
     }
 
@@ -224,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String fragmentTag = backStateName;
 
         FragmentManager manager = getFragmentManager();
-        boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
+        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
 
         //fragment not in back stack, create it.
         if (!fragmentPopped && manager.findFragmentByTag(fragmentTag) == null){
@@ -333,10 +334,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     bundle.putString("json", json);
 
                     FragmentManager fragmentManager = getFragmentManager();
+
                     setTitle(getString(R.string.menu_task));
                     TaskFragment fragment = new TaskFragment();
                     fragment.setArguments(bundle);
-                    fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "ACTIVITY").addToBackStack(null).commit();
+
+                    replaceFragment(fragment);
+                    //fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "ACTIVITY").addToBackStack(null).commit();
 
                 }
 
@@ -499,6 +503,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         EditText txtLocation = (EditText) findViewById(R.id.etLocation);
         EditText txtGps = (EditText) findViewById(R.id.etGps);
         EditText txtNotes = (EditText) findViewById(R.id.etNotes);
+        CheckBox cbInmotion = (CheckBox) findViewById(R.id.cbMotion);
 
         JSONObject jsonObject = new JSONObject();
         try
@@ -507,6 +512,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             jsonObject.put("location", txtLocation.getText());
             jsonObject.put("gps", txtGps.getText());
             jsonObject.put("notes", txtNotes.getText());
+            jsonObject.put("inmotion",cbInmotion.isChecked());
         }
 
         catch (JSONException e)
@@ -516,26 +522,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         return jsonObject;
-    }
-
-    private void readJson(String string)
-    {
-        EditText txtTask = (EditText) findViewById(R.id.etTask);
-        EditText txtLocation = (EditText) findViewById(R.id.etLocation);
-        EditText txtGps = (EditText) findViewById(R.id.etGps);
-        EditText txtFreeText = (EditText) findViewById(R.id.etNotes);
-
-        try
-        {
-            JSONObject jsonObject = new JSONObject(string);
-            txtTask.setText(jsonObject.get("task").toString());
-            //txtAge.setText(jsonObject.get("age").toString());
-            //txtMood.setText(jsonObject.get("mood").toString());
-
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
 }

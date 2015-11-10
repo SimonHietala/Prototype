@@ -23,19 +23,32 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by nsimhie on 2015-11-05.
  */
-public class InternetConnection
-{
+public class InternetConnection extends Observable {
     final private String BASE_URL = "http://10.10.10.100:5000";
     //final private String BASE_URL = "http://192.168.55.55:5000";
     private Activity activity;
-
+    public String response = null;
     public void checkConnectionState()
     {
 
+    }
+
+    public String getMyResponse()
+    {
+        return response;
+    }
+
+    public void setMyResponse(String myResponse)
+    {
+        response = myResponse;
+        setChanged();
+        notifyObservers();
     }
 
     public InternetConnection(Activity activity)
@@ -61,11 +74,12 @@ public class InternetConnection
 
                     response = httpClient.execute(request);
                     final String s = IOUtils.toString(response.getEntity().getContent());
-                    activity.runOnUiThread(new Runnable()
-                    {
+
+                    activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(activity, s, Toast.LENGTH_LONG ).show();
+                            Toast.makeText(activity, s, Toast.LENGTH_LONG).show();
+                            setMyResponse(s);
                         }
                     });
                 }
@@ -106,6 +120,8 @@ public class InternetConnection
                     HttpResponse response = httpClient.execute(httpPost);
                     // write response to log
                     Log.d("Http Post Response:", response.getStatusLine().toString());
+                    Log.d("Http Post Response:", IOUtils.toString(response.getEntity().getContent()));
+
                 } catch (Exception e) {
                     // Log exception
                     e.printStackTrace();
@@ -114,4 +130,5 @@ public class InternetConnection
         });
         t.start();
     }
+
 }

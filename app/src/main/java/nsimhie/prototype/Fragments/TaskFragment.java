@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import nsimhie.prototype.GPS;
 import nsimhie.prototype.InternetConnection;
 import nsimhie.prototype.R;
 
@@ -128,8 +129,18 @@ public class TaskFragment extends Fragment {
             String startTime = getTime();
             tvStart.setText(startTime);
 
-            String gps = jsonObject.get("gps").toString();
-            tvGps.setText(gps);
+            if(jsonObject.getBoolean("inmotion"))
+            {
+                GPS gps = new GPS(getActivity());
+                tvGps.setText(gps.getCoordinates());
+                gps.stopGPS();
+            }
+
+            else
+            {
+                String gps = jsonObject.get("gps").toString();
+                tvGps.setText(gps);
+            }
 
             String notes = jsonObject.get("notes").toString();
             etNotes.setText(notes);
@@ -155,7 +166,7 @@ public class TaskFragment extends Fragment {
             jsonObject.put("task", tvTask.getText());
             jsonObject.put("location", tvLocation.getText());
             jsonObject.put("gps", tvGps.getText());
-            jsonObject.put("start", tvStart.getText());
+            jsonObject.put("starttime", tvStart.getText());
             jsonObject.put("notes", etNotes.getText());
         }
 

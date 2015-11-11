@@ -9,20 +9,26 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 
 import nsimhie.prototype.GPS;
 import nsimhie.prototype.InternetConnection;
 import nsimhie.prototype.R;
+import nsimhie.prototype.WorkTask;
 
-public class TaskFragment extends Fragment {
+public class TaskFragment extends Fragment implements Observer {
     TextView timerTextView;
     long startTime = 0;
+    WorkTask currentTask = new WorkTask();
+    public InternetConnection ic;
 
     //runs without a timer by reposting this handler at the end of the runnable
     Handler timerHandler = new Handler();
@@ -43,7 +49,8 @@ public class TaskFragment extends Fragment {
     };
 
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         final View rootView = inflater.inflate(R.layout.fragment_task, container, false);
 
         startTime = System.currentTimeMillis();
@@ -55,6 +62,8 @@ public class TaskFragment extends Fragment {
             setView(rootView, json);
         }
 
+        ic = new InternetConnection(getActivity());
+        ic.addObserver(this);
 
 
         timerTextView = (TextView) rootView.findViewById(R.id.taskLlTimer).findViewById(R.id.TaskTvTimer);
@@ -63,7 +72,6 @@ public class TaskFragment extends Fragment {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InternetConnection ic = new InternetConnection(getActivity());
                 ic.postRequest(getView(rootView), "/post");
 
             }
@@ -144,6 +152,14 @@ public class TaskFragment extends Fragment {
 
             String notes = jsonObject.get("notes").toString();
             etNotes.setText(notes);
+
+            currentTask.setTask(tvTask.getText().toString());
+            currentTask.setLocation(tvLocation.getText().toString());
+            currentTask.setStartTime(tvStart.getText().toString());
+            currentTask.setInMotion(jsonObject.getBoolean("inmotion"));
+            currentTask.setGps(tvGps.getText().toString());
+            currentTask.setNotes(etNotes.getText().toString());
+            currentTask.setEdited(false);
         }
 
         catch (JSONException e) {
@@ -163,10 +179,12 @@ public class TaskFragment extends Fragment {
         JSONObject jsonObject = new JSONObject();
         try
         {
-            jsonObject.put("task", tvTask.getText());
-            jsonObject.put("location", tvLocation.getText());
-            jsonObject.put("gps", tvGps.getText());
-            jsonObject.put("starttime", tvStart.getText());
+            jsonObject.put("task", currentTask.getTask());
+            jsonObject.put("location", currentTask.getLocation());
+            jsonObject.put("gps", currentTask.getGps());
+            jsonObject.put("starttime", currentTask.getStartTime());
+            jsonObject.put("edited", currentTask.isEdited());
+            jsonObject.put("inmotion", currentTask.isInMotion());
             jsonObject.put("notes", etNotes.getText());
         }
 
@@ -177,4 +195,10 @@ public class TaskFragment extends Fragment {
         return jsonObject;
     }
 
+    @Override
+    public void update(Observable observable, Object data) {
+        int i = Integer.parseInt(ic.getMyResponse());
+        //Toast.makeText(getActivity(), "Given id: " + i , Toast.LENGTH_LONG).show();
+        currentTask.setId(i);
+    }
 }

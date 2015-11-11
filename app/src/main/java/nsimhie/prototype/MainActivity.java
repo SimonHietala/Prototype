@@ -14,6 +14,7 @@ import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.os.SystemClock;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +35,7 @@ import java.io.UnsupportedEncodingException;
 
 import nsimhie.prototype.Fragments.AboutFragment;
 import nsimhie.prototype.Fragments.CreateTagFragment;
+import nsimhie.prototype.Fragments.CurrentTaskFragment;
 import nsimhie.prototype.Fragments.EraseTagFragment;
 import nsimhie.prototype.Fragments.HelpFragment;
 import nsimhie.prototype.Fragments.HistoryEditFragment;
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String USER = "Jürgen";
     private NfcAdapter nfcAdapter;
     private WorkTask currentTask = new WorkTask();
+    private CurrentTaskFragment currentTaskFragment = new CurrentTaskFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,8 +185,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (id == R.id.nav_current_task)
         {
             setTitle(getString(R.string.menu_task));
-            fragment = new TaskFragment();
-            replaceFragment(fragment);
+            //fragment = new TaskFragment();
+            replaceFragment(currentTaskFragment);
         }
 
         else if (id == R.id.nav_history)
@@ -260,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setTitle(getString(R.string.menu_history));
         }
 
-        else if(backStateName.equals(new TaskFragment().getClass().getName()))
+        else if(backStateName.equals(new CurrentTaskFragment().getClass().getName()))
         {
             setTitle(getString(R.string.menu_current_task));
         }
@@ -336,12 +339,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     FragmentManager fragmentManager = getFragmentManager();
 
                     setTitle(getString(R.string.menu_task));
-                    TaskFragment fragment = new TaskFragment();
-                    fragment.setArguments(bundle);
+                    //TaskFragment fragment = new TaskFragment();
+                    //fragment.setArguments(bundle);
+                    //replaceFragment(fragment);
 
-                    replaceFragment(fragment);
-                    //fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "ACTIVITY").addToBackStack(null).commit();
-
+                    currentTaskFragment.setArguments(bundle);
+                    replaceFragment(currentTaskFragment);
                 }
 
                 else

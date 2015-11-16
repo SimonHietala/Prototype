@@ -13,13 +13,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
+import nsimhie.prototype.InternetConnection;
 import nsimhie.prototype.R;
 import nsimhie.prototype.WorkTask;
 
-public class HistoryEditFragment extends Fragment {
+public class HistoryEditFragment extends Fragment implements Observer {
 
     private ArrayList<WorkTask> workTasks;
     private int position;
@@ -54,6 +61,8 @@ public class HistoryEditFragment extends Fragment {
         etGps.setText(workTasks.get(position).getGps());
         etNotes.setText(workTasks.get(position).getNotes());
 
+        final InternetConnection ic = new InternetConnection(getActivity());
+        ic.addObserver(this);
 
         Button save = (Button) rootView.findViewById(R.id.rowSaveBtn);
         save.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +76,8 @@ public class HistoryEditFragment extends Fragment {
                 workTasks.get(position).setLocation(etLocation.getText().toString());
                 workTasks.get(position).setGps(etGps.getText().toString());
                 workTasks.get(position).setNotes(etNotes.getText().toString());
+
+                ic.putRequest(makeJson(),"/worktasks/"+workTasks.get(position).getId());
 
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.popBackStack();
@@ -83,5 +94,33 @@ public class HistoryEditFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        Toast.makeText(getActivity(), "Update saved", Toast.LENGTH_SHORT).show();
+    }
+
+    private JSONObject makeJson()
+    {
+        JSONObject jsonObject = new JSONObject();
+        try
+        {
+            jsonObject.put("task", workTasks.get(position).getTask());
+            jsonObject.put("location", workTasks.get(position).getLocation());
+            jsonObject.put("starttime", workTasks.get(position).getStartTime());
+            jsonObject.put("stoptime", workTasks.get(position).getStopStime());
+            jsonObject.put("time", workTasks.get(position).getTime());
+            jsonObject.put("gps", workTasks.get(position).getGps());
+            jsonObject.put("notes", workTasks.get(position).getNotes());
+            jsonObject.put("inmotion", workTasks.get(position).isInMotion());
+            jsonObject.put("edited", workTasks.get(position).isEdited());
+        }
+
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }

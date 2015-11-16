@@ -23,7 +23,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import nsimhie.prototype.Fragments.HistoryEditFragment;
-import nsimhie.prototype.Fragments.TaskFragment;
 
 /**
  * Created by nsimhie on 2015-10-27.
@@ -53,27 +52,24 @@ public class HistoryRowAdapter extends BaseAdapter
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return workTasks.get(position).getId();
         //just return 0 if your list items do not have an Id variable.
     }
 
-    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
+        final View view;
         final int finalPosition = position;
 
-        if (view == null)
+        if (convertView == null)
         {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.history_row, null);
         }
 
-       if (workTasks.get(position).isEdited())
+        else
         {
-            view.setBackgroundColor(Color.RED);
+            view = convertView;
         }
-
-
 
         TextView etTask = (TextView) view.findViewById(R.id.rowMain).findViewById(R.id.rowEtTask);
 
@@ -84,16 +80,19 @@ public class HistoryRowAdapter extends BaseAdapter
         TextView etGps = (TextView) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtGps);
         TextView etNotes = (TextView) view.findViewById(R.id.rowExpansion).findViewById(R.id.rowEtNotes);
 
-        etTask.setText(workTasks.get(position).getTask());
-        etTime.setText(workTasks.get(position).getTime());
+        etTask.setText(workTasks.get(finalPosition).getTask());
+        etTime.setText(workTasks.get(finalPosition).getTime());
 
-        etStart.setText(workTasks.get(position).getStartTime());
-        etStop.setText(workTasks.get(position).getStopStime());
-        etLocation.setText(workTasks.get(position).getLocation());
-        etGps.setText(workTasks.get(position).getGps());
-        etNotes.setText(workTasks.get(position).getNotes());
+        etStart.setText(workTasks.get(finalPosition).getStartTime());
+        etStop.setText(workTasks.get(finalPosition).getStopStime());
+        etLocation.setText(workTasks.get(finalPosition).getLocation());
+        etGps.setText(workTasks.get(finalPosition).getGps());
+        etNotes.setText(workTasks.get(finalPosition).getNotes());
 
-        final View finalView = view;
+        if (workTasks.get(finalPosition).isEdited())
+        {
+            view.setBackgroundColor(Color.RED);
+        }
 
         //Listener for a click-event on a single row in the history
         RelativeLayout main = (RelativeLayout) view.findViewById(R.id.historyRowLayout);
@@ -101,13 +100,13 @@ public class HistoryRowAdapter extends BaseAdapter
             @Override
             public void onClick(View v) {
 
-                TableLayout tableLayout = (TableLayout) finalView.findViewById(R.id.rowExpansion);
+                TableLayout tableLayout = (TableLayout) view.findViewById(R.id.rowExpansion);
 
                 //Showes the clicked row
                 if(tableLayout.getVisibility() == View.GONE)
                 {
                     tableLayout.setVisibility(View.VISIBLE);
-                    RelativeLayout main = (RelativeLayout) finalView.findViewById(R.id.historyRowLayout);
+                    RelativeLayout main = (RelativeLayout) view.findViewById(R.id.historyRowLayout);
                     main.setBackgroundColor(Color.LTGRAY);
                 }
 
@@ -115,7 +114,7 @@ public class HistoryRowAdapter extends BaseAdapter
                 else if (tableLayout.getVisibility() == View.VISIBLE)
                 {
                     tableLayout.setVisibility(View.GONE);
-                    RelativeLayout main = (RelativeLayout) finalView.findViewById(R.id.historyRowLayout);
+                    RelativeLayout main = (RelativeLayout) view.findViewById(R.id.historyRowLayout);
 
                     if(workTasks.get(finalPosition).isEdited())
                     {
@@ -132,6 +131,7 @@ public class HistoryRowAdapter extends BaseAdapter
 
         //Listener for the click-event on the edit history button.
         ImageButton edit = (ImageButton) view.findViewById(R.id.rowEditBtn);
+
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,7 +139,6 @@ public class HistoryRowAdapter extends BaseAdapter
                 HistoryEditFragment fragment = new HistoryEditFragment(workTasks, finalPosition);
                 String backStateName =  fragment.getClass().getName();
                 manager.beginTransaction().replace(R.id.frame_container, fragment, backStateName).addToBackStack(backStateName).commit();
-
             }
         });
 

@@ -14,6 +14,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -78,7 +79,6 @@ public class InternetConnection extends Observable {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(activity, s, Toast.LENGTH_LONG).show();
                             setMyResponse(s);
                         }
                     });
@@ -121,6 +121,44 @@ public class InternetConnection extends Observable {
                     // write response to log
                     Log.d("Http Post Response:", response.getStatusLine().toString());
                     Log.d("Http Post Response:", IOUtils.toString(response.getEntity().getContent()));
+
+                } catch (Exception e) {
+                    // Log exception
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+    }
+
+    public void putRequest(final JSONObject jsonObject, final String url)
+    {
+        Thread t = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                HttpClient httpClient = new DefaultHttpClient();
+
+                // Form url for posting
+                HttpPut httpPut = new HttpPut(BASE_URL + url);
+
+                StringEntity entity = null;
+                try {
+                    entity = new StringEntity(jsonObject.toString(), HTTP.UTF_8);
+                    entity.setContentType("application/json");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                httpPut.setEntity(entity);
+
+
+                //making POST request.
+                try {
+                    HttpResponse response = httpClient.execute(httpPut);
+                    // write response to log
+                    Log.d("Http Put Response:", response.getStatusLine().toString());
+                    Log.d("Http Put Response:", IOUtils.toString(response.getEntity().getContent()));
 
                 } catch (Exception e) {
                     // Log exception

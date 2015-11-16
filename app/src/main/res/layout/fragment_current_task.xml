@@ -27,9 +27,10 @@
         <ImageButton
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:id="@+id/ctaskImgStop"
-            android:src="@mipmap/ic_media_stop"
-            android:background="@null"/>
+            android:id="@+id/ctaskImgPause"
+            android:src="@android:drawable/ic_media_pause"
+            android:background="@null"
+            android:visibility="gone"/>
 
         <Chronometer
             android:id="@+id/ctaskChronometer"
@@ -41,9 +42,10 @@
         <ImageButton
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:id="@+id/ctaskImgPause"
-            android:src="@android:drawable/ic_media_pause"
-            android:background="@null" />
+            android:id="@+id/ctaskImgStop"
+            android:src="@mipmap/ic_media_stop"
+            android:background="@null"/>
+
     </LinearLayout>
 
     <GridLayout
@@ -118,7 +120,9 @@
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/ctaskEtNotes" />
+        android:id="@+id/ctaskEtNotes"
+        android:layout_row="3"
+        android:layout_column="1" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -127,6 +131,6 @@
         android:text="@string/task_save"
         android:id="@+id/ctaskBtnSave"
         android:layout_gravity="right"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
 </LinearLayout>

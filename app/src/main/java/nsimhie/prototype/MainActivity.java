@@ -41,14 +41,12 @@ import nsimhie.prototype.Fragments.HelpFragment;
 import nsimhie.prototype.Fragments.HistoryEditFragment;
 import nsimhie.prototype.Fragments.HistoryFragment;
 import nsimhie.prototype.Fragments.SettingsFragment;
-import nsimhie.prototype.Fragments.TaskFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String USER = "Jürgen";
     private NfcAdapter nfcAdapter;
-    private WorkTask currentTask = new WorkTask();
-    private CurrentTaskFragment currentTaskFragment = new CurrentTaskFragment();
+    private static CurrentTaskFragment currentTaskFragment = new CurrentTaskFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,10 +160,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setTitle(getString(R.string.menu_create_tag));
             fragment = new CreateTagFragment();
             replaceFragment(fragment);
-
-            //FragmentManager fragmentManager = getFragmentManager();
-            //fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "CREATE_TAG").addToBackStack(null).commit();
-
         }
 
         else if (id == R.id.nav_erase_tag)
@@ -185,7 +179,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (id == R.id.nav_current_task)
         {
             setTitle(getString(R.string.menu_task));
-            //fragment = new TaskFragment();
             replaceFragment(currentTaskFragment);
         }
 
@@ -226,7 +219,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void replaceFragment (Fragment fragment){
         String backStateName =  fragment.getClass().getName();
         String fragmentTag = backStateName;
-
         FragmentManager manager = getFragmentManager();
         boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
 
@@ -277,15 +269,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             setTitle(getString(R.string.menu_about));
         }
-
-
     }
-
-
 
      /*
         functions that handles the nfc-stuff.
-
      */
 
     @Override
@@ -324,7 +311,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             //Read the tags
-
             else
             {
 
@@ -333,17 +319,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(parcelables != null && parcelables.length > 0)
                 {
                     String json = readTextFromMessage((NdefMessage) parcelables[0]);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("json", json);
-
-                    FragmentManager fragmentManager = getFragmentManager();
-
                     setTitle(getString(R.string.menu_task));
-                    //TaskFragment fragment = new TaskFragment();
-                    //fragment.setArguments(bundle);
-                    //replaceFragment(fragment);
 
-                    currentTaskFragment.setArguments(bundle);
+                    currentTaskFragment.setArgumentsOwn(json);
                     replaceFragment(currentTaskFragment);
                 }
 

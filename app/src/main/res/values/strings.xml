@@ -70,4 +70,6 @@
     <string name="help_current_task">Shows the current activity. You can stop and pause the activity. You can also add a note to the current activity. </string>
     <string name="menu_task">Current task</string>
 
+    <!-- CurrentTaskFragment -->
+    <string name="ctask_saved_note">Note saved!</string>
 </resources>

@@ -64,10 +64,9 @@ public class CurrentTaskFragment extends Fragment implements Observer {
         ic = new InternetConnection(getActivity());
         ic.addObserver(this);
 
-
-
         if(this.newTask)
         {
+            chronometer.setBase(startTime);
             finishTask(currentView);
         }
 
@@ -102,6 +101,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
             public void onClick(View v) {
                 currentTask.setNotes(ctEtNotes.getText().toString());
                 Toast.makeText(getActivity(),getResources().getString(R.string.ctask_saved_note),Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -142,6 +142,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
         currentTask.setId(i);
     }
 
+    //Takes the values from the currenttask and sets the view.
     public void setView(View rootView)
     {
         TextView tvLocation = (TextView) rootView.findViewById(R.id.ctaskTvLocation);
@@ -181,7 +182,8 @@ public class CurrentTaskFragment extends Fragment implements Observer {
         ctEtNotes.setText(currentTask.getNotes());
     }
 
-    public JSONObject getView(View rootView)
+    //Makes a jsonobject of the currentTask
+    public JSONObject ownGetView()
     {
         JSONObject jsonObject = new JSONObject();
         try
@@ -192,7 +194,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
             jsonObject.put("stoptime", getTime());
             jsonObject.put("time", chronometer.getText().toString());
             jsonObject.put("gps", currentTask.getGps());
-            jsonObject.put("notes", ctEtNotes.getText());
+            jsonObject.put("notes", currentTask.getNotes());
             jsonObject.put("inmotion", currentTask.isInMotion());
             jsonObject.put("edited", currentTask.isEdited());
         }
@@ -235,7 +237,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
 
     public void finishTask(View view)
     {
-        ic.postRequest(getView(view), "/worktasks");
+        ic.postRequest(ownGetView(), "/worktasks");
         currentTask = new WorkTask();
         //pauseTime = 0;
         startTime = 0;

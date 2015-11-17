@@ -47,10 +47,8 @@ public class HistoryFragment extends Fragment implements Observer
         adapter = new HistoryRowAdapter(workTasksHistory, getActivity(), getActivity().getFragmentManager());
         listView.setAdapter(adapter);
 
-        if (workTasksHistory.size() == 0)
-        {
-            ic.getRequest("/worktasks");
-        }
+        ic.getRequest("/worktasks");
+
         return rootView;
     }
 

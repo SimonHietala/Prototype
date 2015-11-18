@@ -69,18 +69,37 @@ public class HistoryEditFragment extends Fragment implements Observer {
             @Override
             public void onClick(View v) {
                 //Save the edited text
-                workTasks.get(position).setEdited(true);
-                workTasks.get(position).setTask(etTask.getText().toString());
-                workTasks.get(position).setStartTime(etStart.getText().toString());
-                workTasks.get(position).setStopStime(etStop.getText().toString());
-                workTasks.get(position).setLocation(etLocation.getText().toString());
-                workTasks.get(position).setGps(etGps.getText().toString());
-                workTasks.get(position).setNotes(etNotes.getText().toString());
+                if(!workTasks.get(position).checkDateFormat(etStart.getText().toString()))
+                {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.history_edit_starttime), Toast.LENGTH_SHORT).show();
+                }
 
-                ic.putRequest(makeJson(),"/worktasks/"+workTasks.get(position).getId());
+                else if(!workTasks.get(position).checkDateFormat(etStop.getText().toString()))
+                {
+                    Toast.makeText(getActivity(),getResources().getString(R.string.history_edit_stoptime) , Toast.LENGTH_SHORT).show();
+                }
 
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.popBackStack();
+                else if(!workTasks.get(position).startStopRight(etStart.getText().toString(), etStop.getText().toString()))
+                {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.history_edit_timeorder), Toast.LENGTH_SHORT).show();
+                }
+
+                else
+                {
+                    workTasks.get(position).setEdited(true);
+                    workTasks.get(position).setTask(etTask.getText().toString());
+                    workTasks.get(position).setStartTime(etStart.getText().toString());
+                    workTasks.get(position).setStopStime(etStop.getText().toString());
+                    workTasks.get(position).setLocation(etLocation.getText().toString());
+                    workTasks.get(position).setGps(etGps.getText().toString());
+                    workTasks.get(position).setNotes(etNotes.getText().toString());
+                    workTasks.get(position).recalculateTime();
+
+                    ic.putRequest(makeJson(), "/worktasks/" + workTasks.get(position).getId());
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.popBackStack();
+                }
             }
         });
 

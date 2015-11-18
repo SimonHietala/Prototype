@@ -222,6 +222,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentManager manager = getFragmentManager();
         boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
 
+        /*
+        if()
+        {
+
+        }
+        */
         //fragment not in back stack, create it.
         if (!fragmentPopped && manager.findFragmentByTag(fragmentTag) == null){
             FragmentTransaction ft = manager.beginTransaction();
@@ -230,6 +236,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.addToBackStack(backStateName);
             ft.commit();
         }
+
+
     }
 
     private void setTitle(Fragment fragment)

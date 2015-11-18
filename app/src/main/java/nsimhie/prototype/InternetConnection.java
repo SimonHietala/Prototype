@@ -31,8 +31,7 @@ import java.util.Observer;
  * Created by nsimhie on 2015-11-05.
  */
 public class InternetConnection extends Observable {
-    final private String BASE_URL = "http://10.10.10.100:5000";
-    //final private String BASE_URL = "http://192.168.55.55:5000";
+    final private String BASE_URL;
     private Activity activity;
     public String response = null;
     public void checkConnectionState()
@@ -55,6 +54,7 @@ public class InternetConnection extends Observable {
     public InternetConnection(Activity activity)
     {
         this.activity = activity;
+        this.BASE_URL = activity.getResources().getString(R.string.BASE_URL);
     }
 
     public void getRequest(final String url)

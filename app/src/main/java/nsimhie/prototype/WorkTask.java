@@ -1,6 +1,11 @@
 package nsimhie.prototype;
 
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by nsimhie on 2015-10-22.
@@ -108,5 +113,61 @@ public class WorkTask
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void recalculateTime()
+    {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date start = df.parse(getStartTime());
+            Date stop = df.parse(getStopStime());
+            long duration = stop.getTime() - start.getTime();
+            this.setTime(String.format("%02d:%02d:%02d",
+                    TimeUnit.MILLISECONDS.toHours(duration),
+                    TimeUnit.MILLISECONDS.toMinutes(duration) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(duration)),
+                    TimeUnit.MILLISECONDS.toSeconds(duration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration))
+            ));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean startStopRight(String start, String stop)
+    {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date dStart = null;
+        Date dStop = null;
+        long duration = 0;
+
+        try {
+            dStart = df.parse(start);
+            dStop = df.parse(stop);
+            duration = dStop.getTime() - dStart.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return (duration >= 0);
+    }
+
+    public boolean checkDateFormat(String date){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date parsed;
+        try {
+            parsed = df.parse(date);
+        }
+        catch (ParseException e) {
+            return false;
+            //e.printStackTrace();
+        }
+        return true;
+    }
+
+    public String getCurrentTime()
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDateandTime = sdf.format(new Date());
+        return currentDateandTime;
     }
 }

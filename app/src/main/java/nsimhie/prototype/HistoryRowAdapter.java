@@ -142,6 +142,7 @@ public class HistoryRowAdapter extends BaseAdapter
         rowViewHolder.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
             }
         });
 

@@ -72,4 +72,9 @@
 
     <!-- CurrentTaskFragment -->
     <string name="ctask_saved_note">Note saved!</string>
+
+    <!-- HisyoryEditFragment -->
+    <string name="history_edit_starttime">Wrong format on start time.</string>
+    <string name="history_edit_stoptime">Wrong format on stop time.</string>
+    <string name="history_edit_timeorder">Stop time can not be before start time.</string>
 </resources>

@@ -50,4 +50,7 @@
     <string name="row_back_info">Spara dina ändringar eller avbryt redigering.</string>
     <string name="task_gps">Gps:</string>
     <string name="ctask_saved_note">Anteckning sparad!</string>
+    <string name="history_edit_starttime">Fel format på starttiden.</string>
+    <string name="history_edit_stoptime">Fel format på stoptiden.</string>
+    <string name="history_edit_timeorder">Stopiden kan inte vara före starttiden.</string>
 </resources>

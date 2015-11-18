@@ -36,12 +36,11 @@ public class CurrentTaskFragment extends Fragment implements Observer {
     private long startTime;
     //private long pauseTime;
     private static WorkTask currentTask = new WorkTask();
-    public InternetConnection ic;
+    private InternetConnection ic;
     private View currentView;
-    EditText ctEtNotes;
+    private EditText ctEtNotes;
     private String json = null;
     private boolean newTask;
-
     @Override
     public void onPause() {
         super.onPause();
@@ -51,7 +50,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        setView(currentView);
+        setMyView(currentView);
     }
 
     @Override
@@ -70,7 +69,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
             finishTask(currentView);
         }
 
-        setView(currentView);
+        setMyView(currentView);
 
         //Chronometer setup
         if(startTime == 0)
@@ -143,7 +142,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
     }
 
     //Takes the values from the currenttask and sets the view.
-    public void setView(View rootView)
+    public void setMyView(View rootView)
     {
         TextView tvLocation = (TextView) rootView.findViewById(R.id.ctaskTvLocation);
         TextView tvTask = (TextView) rootView.findViewById(R.id.ctaskTvTask);
@@ -156,7 +155,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
 
                 currentTask.setTask(jsonObject.get("task").toString());
                 currentTask.setLocation(jsonObject.get("location").toString());
-                currentTask.setStartTime(getTime());
+                currentTask.setStartTime(currentTask.getCurrentTime());
                 currentTask.setNotes(jsonObject.get("notes").toString());
                 currentTask.setEdited(false);
 
@@ -191,8 +190,10 @@ public class CurrentTaskFragment extends Fragment implements Observer {
             jsonObject.put("task", currentTask.getTask());
             jsonObject.put("location", currentTask.getLocation());
             jsonObject.put("starttime", currentTask.getStartTime());
-            jsonObject.put("stoptime", getTime());
-            jsonObject.put("time", chronometer.getText().toString());
+            currentTask.setStopStime(currentTask.getCurrentTime());
+            jsonObject.put("stoptime", currentTask.getStopStime());
+            currentTask.recalculateTime();
+            jsonObject.put("time",currentTask.getTime());
             jsonObject.put("gps", currentTask.getGps());
             jsonObject.put("notes", currentTask.getNotes());
             jsonObject.put("inmotion", currentTask.isInMotion());
@@ -204,13 +205,6 @@ public class CurrentTaskFragment extends Fragment implements Observer {
             e.printStackTrace();
         }
         return jsonObject;
-    }
-
-    public String getTime()
-    {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String currentDateandTime = sdf.format(new Date());
-        return currentDateandTime;
     }
 
     public void setArgumentsOwn(String json)
@@ -245,10 +239,5 @@ public class CurrentTaskFragment extends Fragment implements Observer {
         this.newTask = false;
         //btnPause.setTag("play");
         //btnPause.setImageResource(android.R.drawable.ic_media_play);
-    }
-
-    public View getCurrentView()
-    {
-        return this.currentView;
     }
 }

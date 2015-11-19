@@ -1,5 +1,6 @@
 package nsimhie.prototype;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -20,9 +22,14 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
+import nsimhie.prototype.Fragments.CurrentTaskFragment;
 import nsimhie.prototype.Fragments.HistoryEditFragment;
+import nsimhie.prototype.MainActivity;
 
 /**
  * Created by nsimhie on 2015-10-27.
@@ -33,13 +40,15 @@ public class HistoryRowAdapter extends BaseAdapter
     private ArrayList<WorkTask> workTasks;
     private FragmentManager manager;
     private LayoutInflater inflater;
+    private CurrentTaskFragment currentTaskFragment;
 
-    public HistoryRowAdapter(ArrayList<WorkTask> workTasks, Context context, FragmentManager manager)
+    public HistoryRowAdapter(ArrayList<WorkTask> workTasks, Context context, FragmentManager manager, CurrentTaskFragment currentTaskFragment)
     {
         this.workTasks = workTasks;
         this.context = context;
         inflater = LayoutInflater.from(this.context);
         this.manager = manager;
+        this.currentTaskFragment = currentTaskFragment;
     }
 
     @Override
@@ -59,7 +68,7 @@ public class HistoryRowAdapter extends BaseAdapter
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final int finalPosition = position;
         final RowViewHolder rowViewHolder;
         final WorkTask wt = getItem(position);
@@ -141,12 +150,37 @@ public class HistoryRowAdapter extends BaseAdapter
         //Listener for play-button.
         rowViewHolder.play.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
+                currentTaskFragment.setArgumentsOwn(writeJson(position).toString());
+                replaceFragment(currentTaskFragment);
 
+                //String backStateName = currentTaskFragment.getClass().getName();
+                //manager.beginTransaction().replace(R.id.frame_container, currentTaskFragment, backStateName).addToBackStack(backStateName).commit();
             }
         });
 
         return convertView;
+    }
+
+    private JSONObject writeJson(int position)
+    {
+        JSONObject jsonObject = new JSONObject();
+        try
+        {
+            jsonObject.put("task", workTasks.get(position).getTask());
+            jsonObject.put("location", workTasks.get(position).getLocation());
+            jsonObject.put("gps", workTasks.get(position).getGps());
+            jsonObject.put("notes", workTasks.get(position).getNotes());
+            jsonObject.put("inmotion",workTasks.get(position).isInMotion());
+        }
+
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+        return jsonObject;
     }
 
 
@@ -169,6 +203,22 @@ public class HistoryRowAdapter extends BaseAdapter
             expansion = (TableLayout) item.findViewById(R.id.rowExpansion);
             edit = (ImageButton) item.findViewById(R.id.rowEditBtn);
             play = (ImageButton) item.findViewById(R.id.rowPlayBtn);
+        }
+    }
+
+    //Function that changes the fragment. And adds to the backstack.
+    public void replaceFragment (Fragment fragment){
+        String backStateName =  fragment.getClass().getName();
+        String fragmentTag = backStateName;
+        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
+
+        //fragment not in back stack, create it.
+        if (!fragmentPopped && manager.findFragmentByTag(fragmentTag) == null){
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(R.id.frame_container, fragment, fragmentTag);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.addToBackStack(backStateName);
+            ft.commit();
         }
     }
 }

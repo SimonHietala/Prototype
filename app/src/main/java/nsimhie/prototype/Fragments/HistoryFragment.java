@@ -33,9 +33,15 @@ import nsimhie.prototype.WorkTask;
 
 public class HistoryFragment extends Fragment implements Observer
 {
-    public ArrayList<WorkTask> workTasksHistory = new ArrayList<>();
-    public InternetConnection ic;
-    public HistoryRowAdapter adapter;
+    private ArrayList<WorkTask> workTasksHistory = new ArrayList<>();
+    private InternetConnection ic;
+    private HistoryRowAdapter adapter;
+    private Context context;
+    private CurrentTaskFragment currentTaskFragment;
+
+    public HistoryFragment(CurrentTaskFragment currentTaskFragment){
+        this.currentTaskFragment = currentTaskFragment;
+    }
 
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_history, container, false);
@@ -44,7 +50,7 @@ public class HistoryFragment extends Fragment implements Observer
         ic = new InternetConnection(getActivity());
         ic.addObserver(this);
 
-        adapter = new HistoryRowAdapter(workTasksHistory, getActivity(), getActivity().getFragmentManager());
+        adapter = new HistoryRowAdapter(workTasksHistory, getActivity(), getActivity().getFragmentManager(), currentTaskFragment);
         listView.setAdapter(adapter);
 
         ic.getRequest("/worktasks");

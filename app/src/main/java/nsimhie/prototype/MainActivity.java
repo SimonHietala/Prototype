@@ -38,7 +38,6 @@ import nsimhie.prototype.Fragments.CreateTagFragment;
 import nsimhie.prototype.Fragments.CurrentTaskFragment;
 import nsimhie.prototype.Fragments.EraseTagFragment;
 import nsimhie.prototype.Fragments.HelpFragment;
-import nsimhie.prototype.Fragments.HistoryEditFragment;
 import nsimhie.prototype.Fragments.HistoryFragment;
 import nsimhie.prototype.Fragments.SettingsFragment;
 
@@ -67,9 +66,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //Nfc related
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-
-        InternetConnection ic = new InternetConnection(this);
-        ic.getRequest("/worktasks/1");
 
     }
 
@@ -153,40 +149,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment fragment = null;
 
         if (id == R.id.nav_create_tag)
         {
             setTitle(getString(R.string.menu_create_tag));
-            fragment = new CreateTagFragment();
-            replaceFragment(fragment);
+            replaceFragment(new CreateTagFragment());
         }
 
         else if (id == R.id.nav_erase_tag)
         {
             setTitle(getString(R.string.menu_erase_tag));
-            fragment = new EraseTagFragment();
-            replaceFragment(fragment);
+            replaceFragment(new EraseTagFragment());
         }
 
         else if (id == R.id.nav_settings)
         {
             setTitle(getString(R.string.menu_settings));
-            fragment = new SettingsFragment();
-            replaceFragment(fragment);
+            replaceFragment(new SettingsFragment());
         }
 
         else if (id == R.id.nav_current_task)
         {
-            setTitle(getString(R.string.menu_task));
-            replaceFragment(currentTaskFragment);
+            if(currentTaskFragment.isCounting()) {
+                setTitle(getString(R.string.menu_task));
+                replaceFragment(currentTaskFragment);
+            }
         }
 
         else if (id == R.id.nav_history)
         {
             setTitle(getString(R.string.menu_history));
-            fragment = new HistoryFragment();
-            replaceFragment(fragment);
+            replaceFragment(new HistoryFragment(currentTaskFragment));
         }
 
         else if (id == R.id.nav_statistics)
@@ -197,15 +190,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (id == R.id.nav_about)
         {
             setTitle(getString(R.string.menu_about));
-            fragment = new AboutFragment();
-            replaceFragment(fragment);
+            replaceFragment(new AboutFragment());
         }
 
         else if (id == R.id.nav_help)
         {
             setTitle(getString(R.string.menu_help));
-            fragment = new HelpFragment();
-            replaceFragment(fragment);
+            replaceFragment(new HelpFragment());
         }
 
         //Closes the menu
@@ -222,12 +213,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentManager manager = getFragmentManager();
         boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
 
-        /*
-        if()
-        {
-
-        }
-        */
         //fragment not in back stack, create it.
         if (!fragmentPopped && manager.findFragmentByTag(fragmentTag) == null){
             FragmentTransaction ft = manager.beginTransaction();
@@ -236,8 +221,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.addToBackStack(backStateName);
             ft.commit();
         }
-
-
     }
 
     private void setTitle(Fragment fragment)
@@ -258,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setTitle(getString(R.string.menu_help));
         }
 
-        else if(backStateName.equals(new HistoryFragment().getClass().getName()))
+        else if(backStateName.equals(new HistoryFragment(currentTaskFragment).getClass().getName()))
         {
             setTitle(getString(R.string.menu_history));
         }
@@ -512,5 +495,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return jsonObject;
     }
-
 }

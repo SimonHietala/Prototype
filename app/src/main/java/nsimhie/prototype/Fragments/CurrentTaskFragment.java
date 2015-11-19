@@ -1,5 +1,7 @@
 package nsimhie.prototype.Fragments;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -19,8 +21,6 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -41,6 +41,8 @@ public class CurrentTaskFragment extends Fragment implements Observer {
     private EditText ctEtNotes;
     private String json = null;
     private boolean newTask;
+    private boolean isCounting = false;
+
     @Override
     public void onPause() {
         super.onPause();
@@ -66,7 +68,10 @@ public class CurrentTaskFragment extends Fragment implements Observer {
         if(this.newTask)
         {
             chronometer.setBase(startTime);
-            finishTask(currentView);
+            if(isCounting()) {
+                finishTask(currentView);
+            }
+
         }
 
         setMyView(currentView);
@@ -79,6 +84,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
 
         chronometer.setBase(startTime);
         chronometer.start();
+        setIscounting(true);
 
 
         /*
@@ -90,7 +96,9 @@ public class CurrentTaskFragment extends Fragment implements Observer {
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finishTask(rootView);
+                if(isCounting()) {
+                    finishTask(rootView);
+                }
             }
         });
 
@@ -99,8 +107,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
             @Override
             public void onClick(View v) {
                 currentTask.setNotes(ctEtNotes.getText().toString());
-                Toast.makeText(getActivity(),getResources().getString(R.string.ctask_saved_note),Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(getActivity(), getResources().getString(R.string.ctask_saved_note), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -132,7 +139,6 @@ public class CurrentTaskFragment extends Fragment implements Observer {
         */
         return rootView;
     }
-
 
     @Override
     public void update(Observable observable, Object data) {
@@ -227,17 +233,30 @@ public class CurrentTaskFragment extends Fragment implements Observer {
         SharedPreferences preferences = this.getActivity().getSharedPreferences(PREFS_NAME, 0);
         //pauseTime = preferences.getLong("pauseTime",0);
         startTime = preferences.getLong("startTime",0);
+
     }
 
-    public void finishTask(View view)
+    private void finishTask(View view)
     {
         ic.postRequest(ownGetView(), "/worktasks");
         currentTask = new WorkTask();
         //pauseTime = 0;
         startTime = 0;
         chronometer.stop();
+        setIscounting(false);
         this.newTask = false;
         //btnPause.setTag("play");
         //btnPause.setImageResource(android.R.drawable.ic_media_play);
     }
+
+    public boolean isCounting()
+    {
+        return this.isCounting;
+    }
+
+    public void setIscounting(boolean state)
+    {
+        this.isCounting = state;
+    }
+    
 }

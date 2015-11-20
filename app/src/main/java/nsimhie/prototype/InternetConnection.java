@@ -34,6 +34,7 @@ public class InternetConnection extends Observable {
     final private String BASE_URL;
     private Activity activity;
     public String response = null;
+
     public void checkConnectionState()
     {
 

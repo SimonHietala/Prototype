@@ -39,6 +39,8 @@ public class HistoryFragment extends Fragment implements Observer
     private Context context;
     private CurrentTaskFragment currentTaskFragment;
 
+    public HistoryFragment() {}
+
     public HistoryFragment(CurrentTaskFragment currentTaskFragment){
         this.currentTaskFragment = currentTaskFragment;
     }

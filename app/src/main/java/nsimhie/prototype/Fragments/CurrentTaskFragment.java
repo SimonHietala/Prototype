@@ -42,6 +42,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
     private String json = null;
     private boolean newTask;
     private boolean isCounting = false;
+    private int chosenLayout;
 
     @Override
     public void onPause() {
@@ -72,10 +73,10 @@ public class CurrentTaskFragment extends Fragment implements Observer {
                 finishTask(currentView);
             }
 
+            this.newTask = false;
         }
 
         setMyView(currentView);
-
         //Chronometer setup
         if(startTime == 0)
         {
@@ -84,7 +85,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
 
         chronometer.setBase(startTime);
         chronometer.start();
-        setIscounting(true);
+        setIsCounting(true);
 
 
         /*
@@ -96,8 +97,9 @@ public class CurrentTaskFragment extends Fragment implements Observer {
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isCounting()) {
+                if (isCounting()) {
                     finishTask(rootView);
+                    getFragmentManager().popBackStack();
                 }
             }
         });
@@ -243,8 +245,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
         //pauseTime = 0;
         startTime = 0;
         chronometer.stop();
-        setIscounting(false);
-        this.newTask = false;
+        setIsCounting(false);
         //btnPause.setTag("play");
         //btnPause.setImageResource(android.R.drawable.ic_media_play);
     }
@@ -254,9 +255,8 @@ public class CurrentTaskFragment extends Fragment implements Observer {
         return this.isCounting;
     }
 
-    public void setIscounting(boolean state)
+    public void setIsCounting(boolean state)
     {
         this.isCounting = state;
     }
-    
 }

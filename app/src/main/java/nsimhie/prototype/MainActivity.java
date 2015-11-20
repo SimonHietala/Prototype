@@ -14,7 +14,6 @@ import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.os.SystemClock;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -63,6 +62,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        InternetConnection ic = new InternetConnection(this);
+        ic.getRequest("/worktasks/headers");
+        Toast.makeText(this, ic.getMyResponse(), Toast.LENGTH_LONG).show();
 
         //Nfc related
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -446,8 +449,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ndef.writeNdefMessage(ndefMessage);
                 ndef.close();
             }
-
-
         }
 
         catch (Exception e)
@@ -491,8 +492,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             e.printStackTrace();
         }
-
-
         return jsonObject;
     }
 }

@@ -33,11 +33,17 @@ import java.util.Observer;
 public class InternetConnection extends Observable {
     final private String BASE_URL;
     private Activity activity;
-    public String response = null;
+    private String response = null;
+    private String responseUrl = "";
 
     public void checkConnectionState()
     {
 
+    }
+
+    public String getResponseUrl()
+    {
+        return responseUrl;
     }
 
     public String getMyResponse()
@@ -45,9 +51,10 @@ public class InternetConnection extends Observable {
         return response;
     }
 
-    public void setMyResponse(String myResponse)
+    public void setMyResponse(String myResponse, String url)
     {
         response = myResponse;
+        responseUrl = url;
         setChanged();
         notifyObservers();
     }
@@ -80,7 +87,7 @@ public class InternetConnection extends Observable {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            setMyResponse(s);
+                            setMyResponse(s,url);
                         }
                     });
                 }

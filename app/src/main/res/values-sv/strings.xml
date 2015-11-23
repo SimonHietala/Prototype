@@ -53,4 +53,10 @@
     <string name="history_edit_starttime">Fel format på starttiden.</string>
     <string name="history_edit_stoptime">Fel format på stoptiden.</string>
     <string name="history_edit_timeorder">Stopiden kan inte vara före starttiden.</string>
+    <string name="history_spinner_base">Visa hela historiken</string>
+    <string name="history_sort_text">Uppgift:</string>
+    <string name="launch_gps">Gps-fältet kan ej lämnas tomt.</string>
+    <string name="launch_location">Plats-fältet kan ej lämnas tomt.</string>
+    <string name="launch_task">Uppgifts-fältet kan ej lämnas tomt.</string>
+    <string name="menu_manual">Starta uppgift manuellt</string>
 </resources>

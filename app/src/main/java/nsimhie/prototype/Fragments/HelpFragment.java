@@ -37,7 +37,7 @@ public class HelpFragment extends Fragment {
         setData();
 
         adapter.notifyDataSetChanged();
-        Toast.makeText(getActivity(), "HelpFragment", Toast.LENGTH_SHORT).show();
+
         //Listener for when a row in the listview is clicked.
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

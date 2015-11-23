@@ -31,6 +31,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Observable;
+import java.util.Observer;
 
 import nsimhie.prototype.Fragments.AboutFragment;
 import nsimhie.prototype.Fragments.CreateTagFragment;
@@ -38,18 +40,25 @@ import nsimhie.prototype.Fragments.CurrentTaskFragment;
 import nsimhie.prototype.Fragments.EraseTagFragment;
 import nsimhie.prototype.Fragments.HelpFragment;
 import nsimhie.prototype.Fragments.HistoryFragment;
+import nsimhie.prototype.Fragments.LaunchNewTaskFragment;
 import nsimhie.prototype.Fragments.SettingsFragment;
+import nsimhie.prototype.Fragments.StatisticsFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements Observer, NavigationView.OnNavigationItemSelectedListener {
 
     public static final String USER = "Jürgen";
     private NfcAdapter nfcAdapter;
     private static CurrentTaskFragment currentTaskFragment = new CurrentTaskFragment();
 
+    private InternetConnection ic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setTitle(getString(R.string.menu_launch_manual));
+        replaceFragment(new LaunchNewTaskFragment(currentTaskFragment));
 
         //Menu stuff.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -63,13 +72,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        InternetConnection ic = new InternetConnection(this);
-        ic.getRequest("/worktasks/headers");
-        Toast.makeText(this, ic.getMyResponse(), Toast.LENGTH_LONG).show();
+        ic = new InternetConnection(this);
+        ic.addObserver(this);
+
 
         //Nfc related
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        String s = ic.getMyResponse();
+        Log.e("Response: ", s);
+        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -165,6 +181,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             replaceFragment(new EraseTagFragment());
         }
 
+        else if (id == R.id.nav_launch_manual)
+        {
+            setTitle(getString(R.string.menu_launch_manual));
+            replaceFragment(new LaunchNewTaskFragment(currentTaskFragment));
+        }
+
         else if (id == R.id.nav_settings)
         {
             setTitle(getString(R.string.menu_settings));
@@ -188,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (id == R.id.nav_statistics)
         {
             setTitle(getString(R.string.menu_statistics));
+            replaceFragment(new StatisticsFragment());
         }
 
         else if (id == R.id.nav_about)
@@ -262,6 +285,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if(backStateName.equals(new AboutFragment().getClass().getName()))
         {
             setTitle(getString(R.string.menu_about));
+        }
+
+        else if(backStateName.equals(new LaunchNewTaskFragment().getClass().getName()))
+        {
+            setTitle(getString(R.string.menu_launch_manual));
         }
     }
 

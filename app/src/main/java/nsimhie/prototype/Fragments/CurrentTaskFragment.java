@@ -202,6 +202,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
             jsonObject.put("stoptime", currentTask.getStopStime());
             currentTask.recalculateTime();
             jsonObject.put("time",currentTask.getTime());
+            jsonObject.put("timeinseconds",currentTask.getTimeInSeconds());
             jsonObject.put("gps", currentTask.getGps());
             jsonObject.put("notes", currentTask.getNotes());
             jsonObject.put("inmotion", currentTask.isInMotion());

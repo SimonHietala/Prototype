@@ -13,11 +13,13 @@ import java.util.concurrent.TimeUnit;
 public class WorkTask
 {
     private int id;
+
     private String task;
     private String location;
     private String startTime;
     private String stopStime;
     private String time;
+    private float timeInSeconds;
     private String notes;
     private String gps;
     private boolean inMotion;
@@ -122,6 +124,7 @@ public class WorkTask
             Date start = df.parse(getStartTime());
             Date stop = df.parse(getStopStime());
             long duration = stop.getTime() - start.getTime();
+            setTimeInSeconds(TimeUnit.MILLISECONDS.toSeconds(duration));
             this.setTime(String.format("%02d:%02d:%02d",
                     TimeUnit.MILLISECONDS.toHours(duration),
                     TimeUnit.MILLISECONDS.toMinutes(duration) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(duration)),
@@ -169,5 +172,13 @@ public class WorkTask
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentDateandTime = sdf.format(new Date());
         return currentDateandTime;
+    }
+
+    public float getTimeInSeconds() {
+        return timeInSeconds;
+    }
+
+    public void setTimeInSeconds(float timeInSeconds) {
+        this.timeInSeconds = timeInSeconds;
     }
 }

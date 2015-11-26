@@ -51,7 +51,7 @@ public class LaunchNewTaskFragment extends Fragment{
             @Override
             public void onClick(View v)
             {
-                if(fieldsFilled(rootView))
+                if(fieldsFilled())
                 {
                     currentTaskFragment.setArgumentsOwn(writeJson().toString());
                     replaceFragment(currentTaskFragment);
@@ -62,27 +62,19 @@ public class LaunchNewTaskFragment extends Fragment{
         return rootView;
     }
 
-    private boolean fieldsFilled(View view)
+    private boolean fieldsFilled()
     {
-        if(etTask.getText().toString().equals(""))
+        if(etTask.getText().toString().trim().equals(""))
         {
             Toast.makeText(getActivity(), getString(R.string.launch_task), Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        else if(etLocation.getText().toString().equals(""))
+        else if(etLocation.getText().toString().trim().equals(""))
         {
             Toast.makeText(getActivity(),getString(R.string.launch_location), Toast.LENGTH_SHORT).show();
             return false;
         }
-
-        /*
-        else if(gps.getText().toString().equals(""))
-        {
-            Toast.makeText(getActivity(),"", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        */
 
         return true;
     }

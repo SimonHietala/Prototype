@@ -10,11 +10,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -38,39 +36,80 @@ public class StatisticsFragment extends Fragment implements Observer{
 
     public StatisticsFragment(){}
     private InternetConnection ic;
-    private Spinner statsSpinner;
+    private Spinner statsSpinner, timeSpinner;
     private View rootView;
     private HorizontalBarChart barChart;
     private PieChart pieChart;
-    private ArrayList<String> headLines = new ArrayList<String>();
+    private float timeUnit = 1.0f;
+    private String pieString = null, barString = null;
 
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_statistics, container, false);
 
         statsSpinner = (Spinner) rootView.findViewById(R.id.statsSpinner);
+        timeSpinner = (Spinner) rootView.findViewById(R.id.statsTimeSpinner);
+        ArrayList<String> times = new ArrayList<>();
+        times.add(getString(R.string.stats_time_hours));
+        times.add(getString(R.string.stats_time_minutes));
+        times.add(getString(R.string.stats_time_seconds));
+        timeSpinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, times));
+
 
         ic = new InternetConnection(getActivity());
         ic.addObserver(this);
-        ic.getRequest("/worktasks/headers");
-        ic.getRequest("/worktasks/headerstime");
+        ic.getRequest(getString(R.string.URL_GET_HEADERS));
+
 
         statsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //Get competlete history
                 if (statsSpinner.getSelectedItem().toString().equals(getString(R.string.history_spinner_base))) {
-                    ic.getRequest("/worktasks");
+                    ic.getRequest(getString(R.string.URL_POST_WORKTASK));
                 }
 
                 //Get task specific history
                 else {
-                    ic.getRequest("/worktasks/headers/" + statsSpinner.getSelectedItem().toString());
+                    ic.getRequest(getString(R.string.URL_GET_HEADERS_SPECIFIC) + statsSpinner.getSelectedItem().toString());
                 }
+                ic.getRequest(getString(R.string.URL_GET_HEADERSTIME));
+
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(timeSpinner.getSelectedItem().toString().equals(getString(R.string.stats_time_hours)))
+                {
+                    timeUnit = 3600.0f;
+                }
+
+                else if(timeSpinner.getSelectedItem().toString().equals(getString(R.string.stats_time_minutes)))
+                {
+                    timeUnit = 60.0f;
+                }
+
+                else if(timeSpinner.getSelectedItem().toString().equals(getString(R.string.stats_time_seconds)))
+                {
+                    timeUnit = 1.0f;
+                }
+
+                if(pieString != null && barString != null)
+                {
+                    makePieChart(pieString);
+                    makeBarGraph(barString);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                timeUnit = 3600.0f;
             }
         });
 
@@ -80,6 +119,7 @@ public class StatisticsFragment extends Fragment implements Observer{
 
     public void readHeaderData(String data)
     {
+        ArrayList<String> headLines = new ArrayList<String>();
         headLines.clear();
         headLines.add(getString(R.string.history_spinner_base));
         try
@@ -109,12 +149,12 @@ public class StatisticsFragment extends Fragment implements Observer{
             JSONArray array = jo.getJSONArray("array");
             for (int i = 0; i < array.length(); i++) {
                 JSONObject row = array.getJSONObject(i);
-                float time = ((float) row.getDouble("timeinseconds"))/3600;
+                float time = ((float) row.getDouble("timeinseconds"))/timeUnit;
                 entries.add(new BarEntry(time, i));
                 labels.add(row.getString("task"));
             }
 
-            BarDataSet dataset = new BarDataSet(entries, "Time Worked");
+            BarDataSet dataset = new BarDataSet(entries, getString(R.string.stats_barchart_lbl));
             //dataset.setColors(myColors());
 
             barChart = (HorizontalBarChart) rootView.findViewById(R.id.statsBarChart);
@@ -147,7 +187,7 @@ public class StatisticsFragment extends Fragment implements Observer{
                 JSONObject row = array.getJSONObject(i);
 
                 labels.add(row.getString("task"));
-                float time = ((float) row.getDouble("time"))/3600;
+                float time = ((float) row.getDouble("time"))/timeUnit;
                 entries.add(new Entry(time,i));
             }
 
@@ -155,7 +195,7 @@ public class StatisticsFragment extends Fragment implements Observer{
 
             pieChart.setRotationAngle(0);
             pieChart.setRotationEnabled(true);
-            pieChart.setDescription("Total time per task");
+            pieChart.setDescription(getString(R.string.stats_piechart_lbl));
 
             PieDataSet pieDataSet = new PieDataSet(entries, "");
 
@@ -205,19 +245,21 @@ public class StatisticsFragment extends Fragment implements Observer{
     @Override
     public void update(Observable observable, Object data)
     {
-        if(ic.getResponseUrl().equals("/worktasks/headers"))
+        if(ic.getResponseUrl().equals(getString(R.string.URL_GET_HEADERS)))
         {
             readHeaderData(ic.getMyResponse());
         }
 
-        else if(ic.getResponseUrl().equals("/worktasks/headerstime"))
+        else if(ic.getResponseUrl().equals(getString(R.string.URL_GET_HEADERSTIME)))
         {
-            makePieChart(ic.getMyResponse());
+            pieString = ic.getMyResponse();
+            makePieChart(pieString);
         }
 
         else
         {
-            makeBarGraph(ic.getMyResponse());
+            barString = ic.getMyResponse();
+            makeBarGraph(barString);
         }
     }
 }

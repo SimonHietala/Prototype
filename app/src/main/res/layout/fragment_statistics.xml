@@ -9,13 +9,13 @@
 
     <com.github.mikephil.charting.charts.HorizontalBarChart
         android:layout_width="match_parent"
-        android:layout_height="244dp"
+        android:layout_height="226dp"
         android:id="@+id/statsBarChart" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="67dp">
+        android:layout_height="47dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,6 +28,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/statsSpinner" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/stats_time_text"
+            android:id="@+id/statsTimelbl" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:id="@+id/statsTimeSpinner" />
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.PieChart

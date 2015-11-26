@@ -1,23 +1,15 @@
 package nsimhie.prototype;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
-import android.nfc.NdefMessage;
-import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -29,7 +21,6 @@ import java.util.ArrayList;
 
 import nsimhie.prototype.Fragments.CurrentTaskFragment;
 import nsimhie.prototype.Fragments.HistoryEditFragment;
-import nsimhie.prototype.MainActivity;
 
 /**
  * Created by nsimhie on 2015-10-27.

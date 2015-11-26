@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import nsimhie.prototype.R;
 
@@ -34,7 +33,6 @@ public class EraseTagFragment extends Fragment
                     case MotionEvent.ACTION_DOWN:
                         // Start
                         pushed = true;
-                        //Toast.makeText(getActivity(), "Held down", Toast.LENGTH_LONG).show();
                         break;
                     case MotionEvent.ACTION_UP:
                         // End

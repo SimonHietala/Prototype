@@ -1,13 +1,15 @@
 package nsimhie.prototype.Fragments;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.SystemClock;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +28,12 @@ import java.util.Observer;
 
 import nsimhie.prototype.GPS;
 import nsimhie.prototype.InternetConnection;
+import nsimhie.prototype.MainActivity;
 import nsimhie.prototype.R;
 import nsimhie.prototype.WorkTask;
 
 public class CurrentTaskFragment extends Fragment implements Observer {
 
-    public static final String PREFS_NAME = "PROTOTYPE";
     private Chronometer chronometer;
     private long startTime;
     //private long pauseTime;
@@ -42,7 +44,6 @@ public class CurrentTaskFragment extends Fragment implements Observer {
     private String json = null;
     private boolean newTask;
     private boolean isCounting = false;
-    private int chosenLayout;
 
     @Override
     public void onPause() {
@@ -60,6 +61,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_current_task, container, false);
         readFromPrefs();
+        setNotification();
         currentView = rootView;
         chronometer = (Chronometer) rootView.findViewById(R.id.ctaskChronometer);
         ctEtNotes = (EditText) rootView.findViewById(R.id.ctaskEtNotes);
@@ -86,7 +88,6 @@ public class CurrentTaskFragment extends Fragment implements Observer {
         chronometer.setBase(startTime);
         chronometer.start();
         setIsCounting(true);
-
 
         /*
         final ImageButton btnPause = (ImageButton) rootView.findViewById(R.id.ctaskImgPause);
@@ -145,7 +146,6 @@ public class CurrentTaskFragment extends Fragment implements Observer {
     @Override
     public void update(Observable observable, Object data) {
         int i = Integer.parseInt(ic.getMyResponse());
-        //Toast.makeText(getActivity(), "Given id: " + i , Toast.LENGTH_LONG).show();
         currentTask.setId(i);
     }
 
@@ -224,7 +224,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
 
     public void saveToPrefs()
     {
-        SharedPreferences preferences = this.getActivity().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.app_prefs), 0);
         SharedPreferences.Editor editor = preferences.edit();
         //editor.putLong("pauseTime", pauseTime);
         editor.putLong("startTime", startTime);
@@ -233,7 +233,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
 
     private void readFromPrefs()
     {
-        SharedPreferences preferences = this.getActivity().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.app_prefs), 0);
         //pauseTime = preferences.getLong("pauseTime",0);
         startTime = preferences.getLong("startTime",0);
 
@@ -241,12 +241,13 @@ public class CurrentTaskFragment extends Fragment implements Observer {
 
     private void finishTask(View view)
     {
-        ic.postRequest(ownGetView(), "/worktasks");
+        ic.postRequest(ownGetView(), getString(R.string.URL_POST_WORKTASK));
         currentTask = new WorkTask();
         //pauseTime = 0;
         startTime = 0;
         chronometer.stop();
         setIsCounting(false);
+        removeNotification();
         //btnPause.setTag("play");
         //btnPause.setImageResource(android.R.drawable.ic_media_play);
     }
@@ -259,5 +260,41 @@ public class CurrentTaskFragment extends Fragment implements Observer {
     public void setIsCounting(boolean state)
     {
         this.isCounting = state;
+    }
+
+    private void setNotification() {
+        SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.app_prefs), 0);
+        boolean saved = preferences.getBoolean("notifications", true);
+
+        if(saved)
+        {
+            android.support.v4.app.NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(getActivity())
+                            .setSmallIcon(R.drawable.ic_ticking)
+                            .setContentTitle(getString(R.string.ctask_notification_title))
+                            .setContentText(getString(R.string.ctask_notification_text));
+            // Creates an explicit intent for an Activity in your app
+            Intent resultIntent = new Intent(getActivity(), MainActivity.class);
+
+            // The stack builder object will contain an artificial back stack for the
+            // started Activity.
+            // This ensures that navigating backward from the Activity leads out of
+            // your application to the Home screen.
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
+            // Adds the back stack for the Intent (but not the Intent itself)
+            stackBuilder.addParentStack(MainActivity.class);
+            // Adds the Intent that starts the Activity to the top of the stack
+            stackBuilder.addNextIntent(resultIntent);
+            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(resultPendingIntent);
+            NotificationManager mNotificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+            // mId allows you to update the notification later on.
+            mNotificationManager.notify(100, mBuilder.build());
+        }
+    }
+
+    private void removeNotification(){
+        NotificationManager mNotificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancelAll();
     }
 }

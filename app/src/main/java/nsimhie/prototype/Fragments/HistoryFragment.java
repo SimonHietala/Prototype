@@ -53,7 +53,7 @@ public class HistoryFragment extends Fragment implements Observer
         adapter = new HistoryRowAdapter(workTasksHistory, getActivity(), getActivity().getFragmentManager(), currentTaskFragment);
         listView.setAdapter(adapter);
 
-        ic.getRequest("/worktasks/headers");
+        ic.getRequest(getString(R.string.URL_GET_HEADERS));
 
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -63,13 +63,13 @@ public class HistoryFragment extends Fragment implements Observer
                 //Get competlete history
                 if(sortSpinner.getSelectedItem().toString().equals(getString(R.string.history_spinner_base)))
                 {
-                    ic.getRequest("/worktasks");
+                    ic.getRequest(getString(R.string.URL_POST_WORKTASK));
                 }
 
                 //Get task specific history
                 else
                 {
-                    ic.getRequest("/worktasks/headers/" + sortSpinner.getSelectedItem().toString());
+                    ic.getRequest(getString(R.string.URL_GET_HEADERS_SPECIFIC) + sortSpinner.getSelectedItem().toString());
                 }
             }
 
@@ -121,12 +121,13 @@ public class HistoryFragment extends Fragment implements Observer
                 wt.setStartTime(row.getString("starttime"));
                 wt.setStopStime(row.getString("stoptime"));
                 wt.setTime(row.getString("time"));
+                wt.setTimeInSeconds((float)row.getDouble("timeinseconds"));
                 wt.setNotes(row.getString("notes"));
                 wt.setGps(row.getString("gps"));
                 wt.setEdited(row.getBoolean("inmotion"));
                 wt.setEdited(row.getBoolean("edited"));
                 workTasksHistory.add(wt);
-                }
+            }
         }
         catch (JSONException e)
         {
@@ -140,14 +141,14 @@ public class HistoryFragment extends Fragment implements Observer
     @Override
     public void update(Observable observable, Object data)
     {
-        if(ic.getResponseUrl().equals("/worktasks"))
+        if(ic.getResponseUrl().equals(getString(R.string.URL_POST_WORKTASK)))
         {
             workTasksHistory.clear();
             parseData(ic.getMyResponse());
             adapter.notifyDataSetChanged();
         }
 
-        else if(ic.getResponseUrl().equals("/worktasks/headers"))
+        else if(ic.getResponseUrl().equals(getString(R.string.URL_GET_HEADERS)))
         {
             readHeaderData(ic.getMyResponse());
         }

@@ -1,7 +1,6 @@
 package nsimhie.prototype.Fragments;
 
-import android.app.Activity;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Pair;
@@ -10,14 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import nsimhie.prototype.HelpRowAdapter;
-import nsimhie.prototype.HistoryRowAdapter;
 import nsimhie.prototype.R;
 
 public class HelpFragment extends Fragment {
@@ -55,22 +51,21 @@ public class HelpFragment extends Fragment {
             }
         });
 
-
-
-
-
         return rootView;
     }
 
 
     private void setData()
     {
-        info.add(new Pair<String, String>(getString(R.string.menu_create_tag),getString(R.string.help_create_tag)));
-        info.add(new Pair<String, String>(getString(R.string.menu_erase_tag), getString(R.string.help_erase_tag)));
-        info.add(new Pair<String, String>(getString(R.string.menu_statistics),getString(R.string.help_statistics)));
-        info.add(new Pair<String, String>(getString(R.string.menu_history), getString(R.string.help_history)));
-        info.add(new Pair<String, String>(getString(R.string.menu_settings), getString(R.string.help_settings)));
+        info.clear();
+        info.add(new Pair<String, String>(getString(R.string.menu_create_tag), getString(R.string.help_create_tag)));
         info.add(new Pair<String, String>(getString(R.string.menu_current_task), getString(R.string.help_current_task)));
+        info.add(new Pair<String, String>(getString(R.string.menu_erase_tag), getString(R.string.help_erase_tag)));
+        info.add(new Pair<String, String>(getString(R.string.menu_history), getString(R.string.help_history)));
+        info.add(new Pair<String, String>(getString(R.string.menu_history_edit), getString(R.string.help_history_edit)));
+        info.add(new Pair<String, String>(getString(R.string.menu_launch_manual), getString(R.string.help_launch_manual)));
+        info.add(new Pair<String, String>(getString(R.string.menu_settings), getString(R.string.help_settings)));
+        info.add(new Pair<String, String>(getString(R.string.menu_statistics),getString(R.string.help_statistics)));
 
     }
 }

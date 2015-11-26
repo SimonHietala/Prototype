@@ -31,8 +31,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Observable;
-import java.util.Observer;
 
 import nsimhie.prototype.Fragments.AboutFragment;
 import nsimhie.prototype.Fragments.CreateTagFragment;
@@ -44,13 +42,10 @@ import nsimhie.prototype.Fragments.LaunchNewTaskFragment;
 import nsimhie.prototype.Fragments.SettingsFragment;
 import nsimhie.prototype.Fragments.StatisticsFragment;
 
-public class MainActivity extends AppCompatActivity implements Observer, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static final String USER = "Jürgen";
     private NfcAdapter nfcAdapter;
     private static CurrentTaskFragment currentTaskFragment = new CurrentTaskFragment();
-
-    private InternetConnection ic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,29 +67,15 @@ public class MainActivity extends AppCompatActivity implements Observer, Navigat
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ic = new InternetConnection(this);
-        ic.addObserver(this);
-
-
         //Nfc related
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
     }
 
     @Override
-    public void update(Observable observable, Object data) {
-        String s = ic.getMyResponse();
-        Log.e("Response: ", s);
-        Toast.makeText(this, s, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        //Toast.makeText(this, "onResume()", Toast.LENGTH_SHORT).show();
-
         enableForegroundDispatchSystem();
-
     }
 
     @Override
@@ -196,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements Observer, Navigat
         else if (id == R.id.nav_current_task)
         {
             if(currentTaskFragment.isCounting()) {
-                setTitle(getString(R.string.menu_task));
+                setTitle(getString(R.string.menu_current_task));
                 replaceFragment(currentTaskFragment);
             }
         }
@@ -320,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements Observer, Navigat
 
                 writeNdefMessage(tag, ndefMessage);
 
-                //Toast.makeText(this, "Tag written!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.nfc_written), Toast.LENGTH_SHORT).show();
             }
 
             //Erase the tag
@@ -330,6 +311,8 @@ public class MainActivity extends AppCompatActivity implements Observer, Navigat
                 Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
                 NdefMessage ndefMessage = createNdefMessage("");
                 writeNdefMessage(tag, ndefMessage);
+
+                Toast.makeText(this, getString(R.string.nfc_erased), Toast.LENGTH_SHORT).show();
             }
 
             //Read the tags
@@ -341,15 +324,32 @@ public class MainActivity extends AppCompatActivity implements Observer, Navigat
                 if(parcelables != null && parcelables.length > 0)
                 {
                     String json = readTextFromMessage((NdefMessage) parcelables[0]);
-                    setTitle(getString(R.string.menu_task));
 
-                    currentTaskFragment.setArgumentsOwn(json);
-                    replaceFragment(currentTaskFragment);
+                    if(json!=null) {
+                        try {
+                            JSONObject jo = new JSONObject(json);
+                            if(jo.getString("task").trim().equals(""))
+                            {
+                                Toast.makeText(this, getString(R.string.nfc_no_data), Toast.LENGTH_SHORT).show();
+                            }
+
+                            else
+                            {
+                                setTitle(getString(R.string.menu_current_task));
+                                currentTaskFragment.setArgumentsOwn(json);
+                                replaceFragment(currentTaskFragment);
+                            }
+                        }
+
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
 
                 else
                 {
-                    Toast.makeText(this, "No NDEF message found!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.nfc_no_message), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -374,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements Observer, Navigat
 
         else
         {
-            Toast.makeText(this, "No NDEF records found!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.nfc_no_record), Toast.LENGTH_LONG).show();
         }
         return null;
     }
@@ -397,7 +397,7 @@ public class MainActivity extends AppCompatActivity implements Observer, Navigat
 
         catch (IndexOutOfBoundsException e)
         {
-            Toast.makeText(this, "No payload on tag.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.nfc_no_payload), Toast.LENGTH_SHORT).show();
             Log.e("getTextFromNdefRecord", e.getMessage());
             return null;
         }
@@ -428,7 +428,7 @@ public class MainActivity extends AppCompatActivity implements Observer, Navigat
 
             if(ndefFormatable == null)
             {
-                Toast.makeText(this, "Tag is not ndef formatable!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.nfc_unformatable), Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -436,7 +436,7 @@ public class MainActivity extends AppCompatActivity implements Observer, Navigat
             ndefFormatable.format(ndefMessage);
             ndefFormatable.close();
 
-            Toast.makeText(this, "Tag is formated!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.nfc_formated), Toast.LENGTH_SHORT).show();
         }
 
         catch(Exception e)
@@ -451,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements Observer, Navigat
         {
             if(tag == null)
             {
-                Toast.makeText(this, "Tag object can not be null.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this,getString(R.string.nfc_not_null) , Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -469,7 +469,7 @@ public class MainActivity extends AppCompatActivity implements Observer, Navigat
 
                 if(!ndef.isWritable())
                 {
-                    Toast.makeText(this, "Tag is not writable.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.nfc_unwritable), Toast.LENGTH_LONG).show();
                     ndef.close();
                     return;
                 }
@@ -491,10 +491,10 @@ public class MainActivity extends AppCompatActivity implements Observer, Navigat
         NdefRecord ndefRecord = NdefRecord.createTextRecord(null, content);
 
         //Creates a record of what app to start when the tag is read.
-        //NdefRecord appRecord =  NdefRecord.createApplicationRecord("nsimhie.nfctest");
-        //NdefMessage ndefMessage = new NdefMessage(new NdefRecord[] {appRecord, ndefRecord});
+        NdefRecord appRecord =  NdefRecord.createApplicationRecord("nsimhie.prototype..AboutFragment");
+        NdefMessage ndefMessage = new NdefMessage(new NdefRecord[] {ndefRecord, appRecord});
 
-        NdefMessage ndefMessage = new NdefMessage(new NdefRecord[] {ndefRecord});
+        //NdefMessage ndefMessage = new NdefMessage(new NdefRecord[] {ndefRecord});
         return ndefMessage;
     }
 

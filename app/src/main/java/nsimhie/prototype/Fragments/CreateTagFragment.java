@@ -76,7 +76,6 @@ public class CreateTagFragment extends Fragment
                     case MotionEvent.ACTION_DOWN:
                         // Start
                         pushed = true;
-                        //Toast.makeText(getActivity(), "Held down", Toast.LENGTH_LONG).show();
                         break;
                     case MotionEvent.ACTION_UP:
                         // End

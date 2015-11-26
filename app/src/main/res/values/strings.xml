@@ -1,16 +1,19 @@
 <resources>
 
+    <!-- App -->
     <string name="app_name">Prototype</string>
+    <string name="app_prefs" translatable="false">PROTOTYPE</string>
+
+
+    <!-- Menu  -->
     <string name="navigation_drawer_close">Open menu</string>
     <string name="navigation_drawer_open">Close menu</string>
-
-
-    <!-- Menu item -->
     <string name="menu_create_tag">Create tag</string>
     <string name="menu_erase_tag">Erase tag</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_current_task">Current task</string>
     <string name="menu_history">History</string>
+    <string name="menu_history_edit">History edit</string>
     <string name="menu_statistics">Statistics</string>
     <string name="menu_log_out">Log out</string>
     <string name="menu_help">Help</string>
@@ -50,34 +53,41 @@
     <string name="row_cancel">Cancel</string>
     <string name="row_back_info">Save your changes or cancel editing.</string>
 
-
     <!-- Settings -->
     <string name="settings_name">Name: </string>
     <string name="settings_pwd">Password: </string>
     <string name="settings_mail">E-mail: </string>
     <string name="settings_language">Language settings</string>
     <string name="settings_notifications">Notifications</string>
+    <string name="settings_fake_pwd" translatable="false">********</string>
+    <string name="settings_fake_name" translatable="false">Tester</string>
+    <string name="settings_fake_mail" translatable="false">Tester.Testsson@gmail.com</string>
+
 
     <!-- About -->
     <string name="about_text">This is a prototype system developed as a part of my master\'s thesis in computer science.</string>
 
     <!-- Help -->
-    <string name="help_create_tag">Enter the tag data. Check the in motion box if the tag is not stationary. To create a tag hold down the create button and touch the tag to the reader.</string>
+    <string name="help_create_tag">Enter the tag data. Task, location and GPS are required for the tag to be scannable. Check the in motion box if the tag is not stationary. To create a tag hold down the create button and touch the tag to the reader.</string>
+    <string name="help_current_task">Shows the current activity data. You can stop the activity. You can also add a note to the current activity, press save for the note to be saved. When in this view it is not possible to scan a new tag, this to probibit accidentally scanning a tag multiple times in a row.</string>
     <string name="help_erase_tag">Erases all data from a tag. Hold down the erase button and touch the tag to the reader.</string>
-    <string name="help_statistics">Shows statistics.</string>
-    <string name="help_history">Shows the previously done tasks. Click the pen icon to edit a task. Click the play icon to start a new instance of the task.</string>
-    <string name="help_settings">Change the applications settings.</string>
-    <string name="help_current_task">Shows the current activity. You can stop and pause the activity. You can also add a note to the current activity. </string>
-    <string name="menu_task">Current task</string>
+    <string name="help_history">Shows the previously done tasks. If a task is clicked a full description of the task appears. If a task is shown in red it means it has been edited. At the bottom of the page there is an option for selecting a specific tasks entries in the history. Click the pen icon to edit a task. Click the play icon to start a new instance of the task.</string>
+    <string name="help_history_edit">Make the changes that you wish to do and click save. Start time and stop time has to be in the specified format. If you regret your changes press cancel.</string>
+    <string name="help_launch_manual">Task, location and GPS are required to be filled in. Press play to start the new task. </string>
+    <string name="help_settings">Sample page for the applications settings. You can toggle notifications on and off. A clock icon in the notificationbar means that you still have a task running.  You can change the language by pressing language settings. If there are no translations for the language you select english will be set as the language.</string>
+    <string name="help_statistics">Sample of how statistics might be shown. You select in what time unit the items will be shown in and you can also select to see individual tasks. </string>
 
     <!-- CurrentTaskFragment -->
     <string name="ctask_saved_note">Note saved!</string>
+    <string name="ctask_notification_title">Time is ticking!</string>
+    <string name="ctask_notification_text">You still have an ongoing task.</string>
 
     <!-- HisyoryEditFragment -->
     <string name="history_edit_starttime">Wrong format on start time.</string>
     <string name="history_edit_stoptime">Wrong format on stop time.</string>
     <string name="history_edit_timeorder">Stop time can not be before start time.</string>
-
+    <string name="history_edit_saved">Edit saved.</string>
+    
     <!-- HistoryFragment -->
     <string name="history_spinner_base">Show complete history</string>
     <string name="history_sort_text">Task: </string>
@@ -86,5 +96,25 @@
     <string name="launch_task">Task field can not be empty. </string>
     <string name="launch_location">Location field can not be empty. </string>
     <string name="launch_gps">Gps field can not be empty. </string>
+
+    <!-- StatisticsFragment -->
+    <string name="stats_time_text">Time unit: </string>
+    <string name="stats_time_seconds">Seconds </string>
+    <string name="stats_time_minutes">Minutes </string>
+    <string name="stats_time_hours">Hours </string>
+    <string name="stats_barchart_lbl">Time worked </string>
+    <string name="stats_piechart_lbl">Total time per task</string>
+
+    <!-- NFC messages -->
+    <string name="nfc_unwritable">Tag is not writable.</string>
+    <string name="nfc_not_null">Tag object can not be null.</string>
+    <string name="nfc_formated">Tag is formated!</string>
+    <string name="nfc_unformatable">Tag is not NDEF formatable!</string>
+    <string name="nfc_no_payload">No payload on tag.</string>
+    <string name="nfc_no_record">No NDEF records found!</string>
+    <string name="nfc_no_message">No NDEF message found!</string>
+    <string name="nfc_no_data">No data on tag.</string>
+    <string name="nfc_erased">Tag erased!</string>
+    <string name="nfc_written">Tag written!</string>
 
 </resources>

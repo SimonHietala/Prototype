@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black"
-        android:text="Jürgen@gmail.com"
+        android:text="@string/settings_fake_mail"
         android:id="@+id/settingsTvMail"
         android:layout_below="@+id/settingsTagMail"
         android:layout_alignParentStart="true" />
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black"
-        android:text="Jürgen"
+        android:text="@string/settings_fake_name"
         android:id="@+id/settingsTvName"
         android:layout_below="@+id/settingsTagName"
         android:layout_alignParentStart="true" />
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black"
-        android:text="**********"
+        android:text="@string/settings_fake_pwd"
         android:id="@+id/settingsTvPwd"
         android:layout_below="@+id/settingsTagPwd"
         android:layout_alignParentStart="true" />
@@ -80,7 +80,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/settings_notifications"
         android:id="@+id/settingsSwitchNotifications"
-        android:checked="false"
+        android:checked="true"
         android:layout_below="@+id/settingsBtnLanguage"
         android:layout_alignParentStart="true" />
 

@@ -1,8 +1,7 @@
 package nsimhie.prototype.Fragments;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.provider.Settings;
@@ -10,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import nsimhie.prototype.R;
 
@@ -30,6 +29,25 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Settings.ACTION_LOCALE_SETTINGS));
+            }
+        });
+
+        Switch notifications = (Switch) rootView.findViewById(R.id.settingsSwitchNotifications);
+        notifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.app_prefs), 0);
+                SharedPreferences.Editor editor = preferences.edit();
+                if(isChecked)
+                {
+                    editor.putBoolean("notifications", true);
+                }
+
+                else
+                {
+                    editor.putBoolean("notifications", false);
+                }
+                editor.apply();
             }
         });
 

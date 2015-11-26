@@ -1,12 +1,8 @@
 package nsimhie.prototype.Fragments;
 
-import android.app.Activity;
 import android.app.FragmentManager;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +91,7 @@ public class HistoryEditFragment extends Fragment implements Observer {
                     workTasks.get(position).setNotes(etNotes.getText().toString());
                     workTasks.get(position).recalculateTime();
 
-                    ic.putRequest(makeJson(), "/worktasks/" + workTasks.get(position).getId());
+                    ic.putRequest(makeJson(), getString(R.string.URL_PUT_WORKTASK) + workTasks.get(position).getId());
 
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.popBackStack();
@@ -117,7 +113,7 @@ public class HistoryEditFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object data) {
-        Toast.makeText(getActivity(), "Update saved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), getString(R.string.history_edit_saved), Toast.LENGTH_SHORT).show();
     }
 
     private JSONObject makeJson()
@@ -130,6 +126,7 @@ public class HistoryEditFragment extends Fragment implements Observer {
             jsonObject.put("starttime", workTasks.get(position).getStartTime());
             jsonObject.put("stoptime", workTasks.get(position).getStopStime());
             jsonObject.put("time", workTasks.get(position).getTime());
+            jsonObject.put("timeinseconds", workTasks.get(position).getTimeInSeconds());
             jsonObject.put("gps", workTasks.get(position).getGps());
             jsonObject.put("notes", workTasks.get(position).getNotes());
             jsonObject.put("inmotion", workTasks.get(position).isInMotion());

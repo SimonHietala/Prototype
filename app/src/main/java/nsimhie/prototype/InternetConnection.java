@@ -15,6 +15,7 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.util.Observable;
 
 /**
@@ -25,11 +26,6 @@ public class InternetConnection extends Observable {
     private Activity activity;
     private String response = null;
     private String responseUrl = "";
-
-    public void checkConnectionState()
-    {
-
-    }
 
     public String getResponseUrl()
     {
@@ -65,7 +61,7 @@ public class InternetConnection extends Observable {
             public void run()
             {
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpGet request = new HttpGet(BASE_URL + url);
+                HttpGet request = new HttpGet(BASE_URL + url.replace(" ", "%20"));
                 final HttpResponse response;
 
                 try
@@ -101,7 +97,7 @@ public class InternetConnection extends Observable {
                 HttpClient httpClient = new DefaultHttpClient();
 
                 // Form url for posting
-                HttpPost httpPost = new HttpPost(BASE_URL + url);
+                HttpPost httpPost = new HttpPost(BASE_URL + url.replace(" ", "%20"));
 
                 StringEntity entity = null;
                 try {
@@ -139,7 +135,7 @@ public class InternetConnection extends Observable {
                 HttpClient httpClient = new DefaultHttpClient();
 
                 // Form url for posting
-                HttpPut httpPut = new HttpPut(BASE_URL + url);
+                HttpPut httpPut = new HttpPut(BASE_URL + url.replace(" ", "%20"));
 
                 StringEntity entity = null;
                 try {

@@ -19,6 +19,8 @@
     <string name="menu_help">Help</string>
     <string name="menu_about">About</string>
     <string name="menu_launch_manual">Launch task manually</string>
+    <string name="menu_other">Other</string>
+    <string name="menu_main_functions">Main functions</string>
 
     <!-- Create tag  -->
     <string name="create_task">Task</string>
@@ -34,7 +36,7 @@
     <string name="erase_erase">Erase</string>
 
     <!-- Current task -->
-    <string name="task_save">Save</string>
+    <string name="task_save">Save notes</string>
     <string name="task_location">Location: </string>
     <string name="task_start_time">Start time: </string>
     <string name="task_stop_time">Stop time: </string>

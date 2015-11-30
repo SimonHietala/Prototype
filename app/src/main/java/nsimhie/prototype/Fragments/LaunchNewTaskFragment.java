@@ -84,10 +84,10 @@ public class LaunchNewTaskFragment extends Fragment{
         JSONObject jsonObject = new JSONObject();
         try
         {
-            jsonObject.put("task", etTask.getText().toString());
-            jsonObject.put("location", etLocation.getText().toString());
-            jsonObject.put("gps", etGps.getText().toString());
-            jsonObject.put("notes", etNotes.getText().toString());
+            jsonObject.put("task", etTask.getText().toString().trim());
+            jsonObject.put("location", etLocation.getText().toString().trim());
+            jsonObject.put("gps", etGps.getText().toString().trim());
+            jsonObject.put("notes", etNotes.getText().toString().trim());
             jsonObject.put("inmotion", true);
         }
 

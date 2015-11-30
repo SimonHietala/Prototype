@@ -52,18 +52,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Sets the start view for the app
         setTitle(getString(R.string.menu_launch_manual));
         replaceFragment(new LaunchNewTaskFragment(currentTaskFragment));
 
-        //Menu stuff.
+        //Adds the menu
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -84,9 +83,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         disableForegroundDispatchSystem();
     }
 
+    //Handles the back-button
     @Override
     public void onBackPressed() {
 
+        //Close the menu when the menu is open
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START))
         {
@@ -144,7 +145,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
+    //The menu items
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -230,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    //Helper function for seting the title on back button pressed.
     private void setTitle(Fragment fragment)
     {
         String backStateName =  fragment.getClass().getName();
@@ -509,10 +512,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         JSONObject jsonObject = new JSONObject();
         try
         {
-            jsonObject.put("task", txtTask.getText());
-            jsonObject.put("location", txtLocation.getText());
-            jsonObject.put("gps", txtGps.getText());
-            jsonObject.put("notes", txtNotes.getText());
+            jsonObject.put("task", txtTask.getText().toString().trim());
+            jsonObject.put("location", txtLocation.getText().toString().trim());
+            jsonObject.put("gps", txtGps.getText().toString().trim());
+            jsonObject.put("notes", txtNotes.getText().toString().trim());
             jsonObject.put("inmotion",cbInmotion.isChecked());
         }
 

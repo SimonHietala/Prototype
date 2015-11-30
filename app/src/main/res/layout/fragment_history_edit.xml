@@ -28,7 +28,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/rowEtTask"/>
+                android:id="@+id/rowEtTask"
+                android:digits="0,1,2,3,4,5,6,7,8,9,abcdefghijklmnopqrstuvwxyzåäö,ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ "/>
         </TableRow>
 
         <TableRow
@@ -164,7 +165,8 @@
         android:id="@+id/rowSaveBtn"
         android:visibility="visible"
         android:layout_below="@+id/rowExpansion"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textAllCaps="false"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -175,7 +177,8 @@
         android:visibility="visible"
         android:layout_alignTop="@+id/rowSaveBtn"
         android:layout_toStartOf="@+id/rowSaveBtn"
-        android:layout_marginEnd="40dp" />
+        android:layout_marginEnd="40dp"
+        android:textAllCaps="false"/>
 
 
 </RelativeLayout>

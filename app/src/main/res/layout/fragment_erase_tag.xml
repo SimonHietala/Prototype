@@ -18,5 +18,7 @@
         android:layout_height="wrap_content"
         android:text="@string/erase_erase"
         android:id="@+id/btnErase"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:textAllCaps="false"/>
+
 </LinearLayout>

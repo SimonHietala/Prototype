@@ -121,14 +121,14 @@ public class HistoryEditFragment extends Fragment implements Observer {
         JSONObject jsonObject = new JSONObject();
         try
         {
-            jsonObject.put("task", workTasks.get(position).getTask());
-            jsonObject.put("location", workTasks.get(position).getLocation());
-            jsonObject.put("starttime", workTasks.get(position).getStartTime());
-            jsonObject.put("stoptime", workTasks.get(position).getStopStime());
-            jsonObject.put("time", workTasks.get(position).getTime());
+            jsonObject.put("task", workTasks.get(position).getTask().trim());
+            jsonObject.put("location", workTasks.get(position).getLocation().trim());
+            jsonObject.put("starttime", workTasks.get(position).getStartTime().trim());
+            jsonObject.put("stoptime", workTasks.get(position).getStopStime().trim());
+            jsonObject.put("time", workTasks.get(position).getTime().trim());
             jsonObject.put("timeinseconds", workTasks.get(position).getTimeInSeconds());
-            jsonObject.put("gps", workTasks.get(position).getGps());
-            jsonObject.put("notes", workTasks.get(position).getNotes());
+            jsonObject.put("gps", workTasks.get(position).getGps().trim());
+            jsonObject.put("notes", workTasks.get(position).getNotes().trim());
             jsonObject.put("inmotion", workTasks.get(position).isInMotion());
             jsonObject.put("edited", workTasks.get(position).isEdited());
         }

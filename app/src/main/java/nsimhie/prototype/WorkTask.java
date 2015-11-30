@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by nsimhie on 2015-10-22.
+ * Class for handling worktasks
  */
 public class WorkTask
 {
@@ -68,6 +68,17 @@ public class WorkTask
         return gps;
     }
 
+    public float getTimeInSeconds() {
+        return timeInSeconds;
+    }
+
+    public String getCurrentTime()
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDateandTime = sdf.format(new Date());
+        return currentDateandTime;
+    }
+
     public boolean isInMotion() {
         return inMotion;
     }
@@ -116,6 +127,11 @@ public class WorkTask
         this.id = id;
     }
 
+    public void setTimeInSeconds(float timeInSeconds) {
+        this.timeInSeconds = timeInSeconds;
+    }
+
+    //Calculates the time spent on a task
     public void recalculateTime()
     {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -135,6 +151,7 @@ public class WorkTask
         }
     }
 
+    //Checks that the start time is before the stop time.
     public boolean startStopRight(String start, String stop)
     {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -153,6 +170,7 @@ public class WorkTask
         return (duration >= 0);
     }
 
+    //Checks the format of the date entered by the user.
     public boolean checkDateFormat(String date){
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date parsed;
@@ -164,20 +182,5 @@ public class WorkTask
             //e.printStackTrace();
         }
         return true;
-    }
-
-    public String getCurrentTime()
-    {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentDateandTime = sdf.format(new Date());
-        return currentDateandTime;
-    }
-
-    public float getTimeInSeconds() {
-        return timeInSeconds;
-    }
-
-    public void setTimeInSeconds(float timeInSeconds) {
-        this.timeInSeconds = timeInSeconds;
     }
 }

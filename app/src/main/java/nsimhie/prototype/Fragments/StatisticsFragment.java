@@ -85,23 +85,15 @@ public class StatisticsFragment extends Fragment implements Observer{
         timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(timeSpinner.getSelectedItem().toString().equals(getString(R.string.stats_time_hours)))
-                {
+                if (timeSpinner.getSelectedItem().toString().equals(getString(R.string.stats_time_hours))) {
                     timeUnit = 3600.0f;
-                }
-
-                else if(timeSpinner.getSelectedItem().toString().equals(getString(R.string.stats_time_minutes)))
-                {
+                } else if (timeSpinner.getSelectedItem().toString().equals(getString(R.string.stats_time_minutes))) {
                     timeUnit = 60.0f;
-                }
-
-                else if(timeSpinner.getSelectedItem().toString().equals(getString(R.string.stats_time_seconds)))
-                {
+                } else if (timeSpinner.getSelectedItem().toString().equals(getString(R.string.stats_time_seconds))) {
                     timeUnit = 1.0f;
                 }
 
-                if(pieString != null && barString != null)
-                {
+                if (pieString != null && barString != null) {
                     makePieChart(pieString);
                     makeBarGraph(barString);
                 }
@@ -135,8 +127,9 @@ public class StatisticsFragment extends Fragment implements Observer{
             e.printStackTrace();
         }
 
-        statsSpinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, headLines));
-
+        if(headLines.size() > 0) {
+            statsSpinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, headLines));
+        }
     }
 
     public void makeBarGraph(String data)
@@ -154,17 +147,20 @@ public class StatisticsFragment extends Fragment implements Observer{
                 labels.add(row.getString("task"));
             }
 
-            BarDataSet dataset = new BarDataSet(entries, getString(R.string.stats_barchart_lbl));
-            //dataset.setColors(myColors());
+            if(entries.size() > 0)
+            {
+                BarDataSet dataset = new BarDataSet(entries, getString(R.string.stats_barchart_lbl));
+                //dataset.setColors(myColors());
 
-            barChart = (HorizontalBarChart) rootView.findViewById(R.id.statsBarChart);
-            barChart.setDescription("");
+                barChart = (HorizontalBarChart) rootView.findViewById(R.id.statsBarChart);
+                barChart.setDescription("");
 
-            BarData barData = new BarData(labels, dataset);
-            barChart.setData(barData);
+                BarData barData = new BarData(labels, dataset);
+                barChart.setData(barData);
 
-            barChart.invalidate();
-            barChart.notifyDataSetChanged();
+                barChart.invalidate();
+                barChart.notifyDataSetChanged();
+            }
         }
 
         catch (JSONException e)
@@ -191,24 +187,26 @@ public class StatisticsFragment extends Fragment implements Observer{
                 entries.add(new Entry(time,i));
             }
 
-            pieChart = (PieChart) rootView.findViewById(R.id.statsPieChart);
+            if(entries.size() > 0) {
+                pieChart = (PieChart) rootView.findViewById(R.id.statsPieChart);
 
-            pieChart.setRotationAngle(0);
-            pieChart.setRotationEnabled(true);
-            pieChart.setDescription(getString(R.string.stats_piechart_lbl));
+                pieChart.setRotationAngle(0);
+                pieChart.setRotationEnabled(true);
+                pieChart.setDescription(getString(R.string.stats_piechart_lbl));
 
-            PieDataSet pieDataSet = new PieDataSet(entries, "");
+                PieDataSet pieDataSet = new PieDataSet(entries, "");
 
-            pieDataSet.setColors(myColors());
+                pieDataSet.setColors(myColors());
 
-            Legend l = pieChart.getLegend();
-            l.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
+                Legend l = pieChart.getLegend();
+                l.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
 
-            PieData pieData = new PieData(labels, pieDataSet);
-            pieChart.setData(pieData);
+                PieData pieData = new PieData(labels, pieDataSet);
+                pieChart.setData(pieData);
 
-            pieChart.invalidate();
-            pieChart.notifyDataSetChanged();
+                pieChart.invalidate();
+                pieChart.notifyDataSetChanged();
+            }
 
         }
 

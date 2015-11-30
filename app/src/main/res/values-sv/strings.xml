@@ -31,7 +31,7 @@
     <string name="settings_pwd">Lösenord: </string>
     <string name="task_location">Plats: </string>
     <string name="task_notes">Anteckningar: </string>
-    <string name="task_save">Spara</string>
+    <string name="task_save">Spara anteckningar</string>
     <string name="task_start_time">Starttid: </string>
     <string name="task_stop_time">Stoptid: </string>
     <string name="navigation_drawer_close">Öppna meny</string>
@@ -80,4 +80,6 @@
     <string name="ctask_notification_title">Klockan tickar!</string>
     <string name="ctask_notification_text">Du har fortfarande en pågående uppgift.</string>
     <string name="help_statistics">Exempel på hur statistik kan visas. Du väljer vilken tidsenhet som ska användas och du kan även välja vilken uppgift som ska visas. </string>
+    <string name="menu_main_functions">Huvudfunktioner</string>
+    <string name="menu_other">Övrigt</string>
 </resources>

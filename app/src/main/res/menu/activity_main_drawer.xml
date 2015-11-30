@@ -2,56 +2,65 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_create_tag"
-            android:title="@string/menu_create_tag"
-            android:icon="@android:drawable/ic_menu_add" />
 
-        <item
-            android:id="@+id/nav_erase_tag"
-            android:title="@string/menu_erase_tag"
-            android:icon="@android:drawable/ic_menu_delete" />
+        <item android:title="@string/menu_main_functions">
+            <menu>
+                <item
+                    android:id="@+id/nav_current_task"
+                    android:title="@string/menu_current_task"
+                    android:icon="@drawable/ic_ticking"/>
 
-        <item
-            android:id="@+id/nav_launch_manual"
-            android:title="@string/menu_launch_manual"
-            android:icon="@android:drawable/ic_media_play" />
+                <item
+                    android:id="@+id/nav_launch_manual"
+                    android:title="@string/menu_launch_manual"
+                    android:icon="@android:drawable/ic_media_play" />
 
-        <item
-            android:id="@+id/nav_current_task"
-            android:title="@string/menu_current_task"
-            android:icon="@android:drawable/ic_dialog_info"/>
+                <item
+                    android:id="@+id/nav_history"
+                    android:title="@string/menu_history"
+                    android:icon="@android:drawable/ic_menu_today"/>
 
-        <item
-            android:id="@+id/nav_settings"
-            android:title="@string/menu_settings"
-            android:icon="@android:drawable/ic_menu_preferences"/>
+                <item
+                    android:id="@+id/nav_statistics"
+                    android:title="@string/menu_statistics"
+                    android:icon="@android:drawable/ic_menu_gallery"/>
 
-        <item
-            android:id="@+id/nav_history"
-            android:title="@string/menu_history"
-            android:icon="@android:drawable/ic_menu_today"/>
+                <item
+                    android:id="@+id/nav_create_tag"
+                    android:title="@string/menu_create_tag"
+                    android:icon="@android:drawable/ic_menu_add" />
 
-        <item
-            android:id="@+id/nav_statistics"
-            android:title="@string/menu_statistics"
-            android:icon="@android:drawable/ic_menu_gallery"/>
+                <item
+                    android:id="@+id/nav_erase_tag"
+                    android:title="@string/menu_erase_tag"
+                    android:icon="@android:drawable/ic_menu_delete" />
+            </menu>
+        </item>
 
-        <item
-            android:id="@+id/nav_about"
-            android:title="@string/menu_about"
-            android:icon="@android:drawable/ic_menu_info_details"/>
+        <item android:title="@string/menu_other">
+            <menu>
+                <item
+                    android:id="@+id/nav_settings"
+                    android:title="@string/menu_settings"
+                    android:icon="@android:drawable/ic_menu_preferences"/>
 
-        <item
-            android:id="@+id/nav_help"
-            android:title="@string/menu_help"
-            android:icon="@android:drawable/ic_menu_help"/>
+                <item
+                    android:id="@+id/nav_help"
+                    android:title="@string/menu_help"
+                    android:icon="@android:drawable/ic_menu_help"/>
 
-        <item
-            android:id="@+id/nav_log_out"
-            android:title="@string/menu_log_out"
-            android:icon="@android:drawable/ic_menu_revert"/>
+                <item
+                    android:id="@+id/nav_about"
+                    android:title="@string/menu_about"
+                    android:icon="@android:drawable/ic_menu_info_details"/>
 
+                <item
+                    android:id="@+id/nav_log_out"
+                    android:title="@string/menu_log_out"
+                    android:icon="@android:drawable/ic_menu_revert"/>
+
+            </menu>
+        </item>
 
     </group>
 

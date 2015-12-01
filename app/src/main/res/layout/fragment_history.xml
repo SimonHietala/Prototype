@@ -11,7 +11,7 @@ android:weightSum="1">
     android:layout_height="333dp"
     android:id="@+id/historyListView"
     android:listSelector="@android:color/darker_gray"
-    android:layout_weight="0.90" />
+    android:layout_weight="1.03" />
 
     <LinearLayout
         android:orientation="horizontal"

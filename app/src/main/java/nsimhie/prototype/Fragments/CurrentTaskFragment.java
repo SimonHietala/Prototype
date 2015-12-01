@@ -61,7 +61,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_current_task, container, false);
         readFromPrefs();
-        setNotification();
+        //setNotification();
         currentView = rootView;
         chronometer = (Chronometer) rootView.findViewById(R.id.ctaskChronometer);
         ctEtNotes = (EditText) rootView.findViewById(R.id.ctaskEtNotes);
@@ -74,7 +74,6 @@ public class CurrentTaskFragment extends Fragment implements Observer {
             if(isCounting()) {
                 finishTask(currentView);
             }
-
             this.newTask = false;
         }
 
@@ -259,6 +258,11 @@ public class CurrentTaskFragment extends Fragment implements Observer {
 
     public void setIsCounting(boolean state)
     {
+        if(state)
+        {
+            setNotification();
+        }
+
         this.isCounting = state;
     }
 

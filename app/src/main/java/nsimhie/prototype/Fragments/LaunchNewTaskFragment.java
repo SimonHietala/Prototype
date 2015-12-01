@@ -32,6 +32,14 @@ public class LaunchNewTaskFragment extends Fragment{
         this.currentTaskFragment = currentTaskFragment;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //Get the gps location
+        GPS gps = new GPS(getActivity());
+        etGps.setText(gps.getCoordinates());
+        gps.stopGPS();
+    }
 
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState)
     {
@@ -54,6 +62,10 @@ public class LaunchNewTaskFragment extends Fragment{
                 if(fieldsFilled())
                 {
                     currentTaskFragment.setArgumentsOwn(writeJson().toString());
+                    etNotes.setText("");
+                    etLocation.setText("");
+                    etTask.setText("");
+                    etGps.setText("");
                     replaceFragment(currentTaskFragment);
                 }
             }

@@ -182,6 +182,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setTitle(getString(R.string.menu_current_task));
                 replaceFragment(currentTaskFragment);
             }
+
+            else
+            {
+                Toast.makeText(this, getString(R.string.task_no_task), Toast.LENGTH_LONG).show();
+            }
         }
 
         else if (id == R.id.nav_history)

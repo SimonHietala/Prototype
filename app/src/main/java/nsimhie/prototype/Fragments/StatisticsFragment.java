@@ -194,7 +194,7 @@ public class StatisticsFragment extends Fragment implements Observer{
                 pieChart.setRotationEnabled(true);
                 pieChart.setDescription(getString(R.string.stats_piechart_lbl));
 
-                PieDataSet pieDataSet = new PieDataSet(entries, "");
+                PieDataSet pieDataSet = new PieDataSet(entries,"");
 
                 pieDataSet.setColors(myColors());
 

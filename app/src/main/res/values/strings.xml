@@ -42,6 +42,7 @@
     <string name="task_stop_time">Stop time: </string>
     <string name="task_gps">Gps: </string>
     <string name="task_notes">Notes: </string>
+    <string name="task_no_task">There is currently no task running.</string>
 
     <!-- History row -->
     <string name="row_task">Task: </string>

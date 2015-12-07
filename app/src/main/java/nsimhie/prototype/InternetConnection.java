@@ -15,12 +15,8 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.util.Observable;
 
-/**
- * Created by nsimhie on 2015-11-05.
- */
 public class InternetConnection extends Observable {
     final private String BASE_URL;
     private Activity activity;

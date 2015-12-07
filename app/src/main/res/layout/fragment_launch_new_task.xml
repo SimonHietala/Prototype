@@ -69,4 +69,5 @@
         android:id="@+id/launchBtn"
         android:src="@android:drawable/ic_media_play"
         android:layout_gravity="center_horizontal" />
+
 </LinearLayout>

@@ -40,11 +40,10 @@
             android:textSize="40sp"/>
 
         <ImageButton
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/ctaskImgStop"
-            android:src="@mipmap/ic_media_stop"
-            android:background="@null"/>
+            android:src="@mipmap/ic_media_stop"/>
 
     </LinearLayout>
 

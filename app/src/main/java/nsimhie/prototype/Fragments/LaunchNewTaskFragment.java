@@ -66,6 +66,7 @@ public class LaunchNewTaskFragment extends Fragment{
                     etLocation.setText("");
                     etTask.setText("");
                     etGps.setText("");
+                    getActivity().setTitle(getString(R.string.menu_current_task));
                     replaceFragment(currentTaskFragment);
                 }
             }

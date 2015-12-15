@@ -1,5 +1,6 @@
 package nsimhie.prototype;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -32,11 +33,13 @@ public class HistoryRowAdapter extends BaseAdapter
     private FragmentManager manager;
     private LayoutInflater inflater;
     private CurrentTaskFragment currentTaskFragment;
+    private Activity activity;
 
-    public HistoryRowAdapter(ArrayList<WorkTask> workTasks, Context context, FragmentManager manager, CurrentTaskFragment currentTaskFragment)
+    public HistoryRowAdapter(ArrayList<WorkTask> workTasks, Activity context, FragmentManager manager, CurrentTaskFragment currentTaskFragment)
     {
         this.workTasks = workTasks;
         this.context = context;
+        this.activity = context;
         inflater = LayoutInflater.from(this.context);
         this.manager = manager;
         this.currentTaskFragment = currentTaskFragment;
@@ -145,7 +148,7 @@ public class HistoryRowAdapter extends BaseAdapter
             {
                 currentTaskFragment.setArgumentsOwn(writeJson(position).toString());
                 replaceFragment(currentTaskFragment);
-
+                activity.setTitle(activity.getString(R.string.menu_current_task));
                 //String backStateName = currentTaskFragment.getClass().getName();
                 //manager.beginTransaction().replace(R.id.frame_container, currentTaskFragment, backStateName).addToBackStack(backStateName).commit();
             }

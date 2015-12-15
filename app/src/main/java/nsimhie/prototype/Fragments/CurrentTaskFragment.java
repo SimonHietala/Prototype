@@ -1,5 +1,6 @@
 package nsimhie.prototype.Fragments;
 
+import android.app.FragmentManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -99,6 +100,21 @@ public class CurrentTaskFragment extends Fragment implements Observer {
             public void onClick(View v) {
                 if (isCounting()) {
                     finishTask(rootView);
+
+                    FragmentManager.BackStackEntry backEntry;
+                    try {
+                        backEntry = getFragmentManager().getBackStackEntryAt(getFragmentManager().getBackStackEntryCount() - 2);
+                    }
+
+                    catch (IndexOutOfBoundsException e)
+                    {
+                        backEntry = getFragmentManager().getBackStackEntryAt(getFragmentManager().getBackStackEntryCount()-1);
+                    }
+                        String str = backEntry.getName();
+                        Fragment fragment = getFragmentManager().findFragmentByTag(str);
+                        Helpers h = new Helpers(getActivity(), CurrentTaskFragment.this);
+                        h.mySetTitle(fragment);
+
                     getFragmentManager().popBackStack();
                 }
             }
@@ -293,7 +309,7 @@ public class CurrentTaskFragment extends Fragment implements Observer {
             mBuilder.setContentIntent(resultPendingIntent);
             NotificationManager mNotificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
             // mId allows you to update the notification later on.
-            mNotificationManager.notify(100, mBuilder.build());
+            mNotificationManager.notify(200, mBuilder.build());
         }
     }
 

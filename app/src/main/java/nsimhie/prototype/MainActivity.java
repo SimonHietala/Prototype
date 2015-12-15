@@ -37,6 +37,7 @@ import nsimhie.prototype.Fragments.CreateTagFragment;
 import nsimhie.prototype.Fragments.CurrentTaskFragment;
 import nsimhie.prototype.Fragments.EraseTagFragment;
 import nsimhie.prototype.Fragments.HelpFragment;
+import nsimhie.prototype.Fragments.Helpers;
 import nsimhie.prototype.Fragments.HistoryFragment;
 import nsimhie.prototype.Fragments.LaunchNewTaskFragment;
 import nsimhie.prototype.Fragments.SettingsFragment;
@@ -103,7 +104,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 FragmentManager.BackStackEntry backEntry = getFragmentManager().getBackStackEntryAt(getFragmentManager().getBackStackEntryCount() - 2);
                 String str=backEntry.getName();
                 Fragment fragment = getFragmentManager().findFragmentByTag(str);
-                setTitle(fragment);
+                Helpers h = new Helpers(MainActivity.this, currentTaskFragment);
+                h.mySetTitle(fragment);
             }
 
             else
@@ -234,51 +236,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.addToBackStack(backStateName);
             ft.commit();
-        }
-    }
-
-    //Helper function for seting the title on back button pressed.
-    private void setTitle(Fragment fragment)
-    {
-        String backStateName =  fragment.getClass().getName();
-        if(backStateName.equals(new CreateTagFragment().getClass().getName()))
-        {
-            setTitle(getString(R.string.menu_create_tag));
-        }
-
-        else if(backStateName.equals(new EraseTagFragment().getClass().getName()))
-        {
-            setTitle(getString(R.string.menu_erase_tag));
-        }
-
-        else if(backStateName.equals(new HelpFragment().getClass().getName()))
-        {
-            setTitle(getString(R.string.menu_help));
-        }
-
-        else if(backStateName.equals(new HistoryFragment(currentTaskFragment).getClass().getName()))
-        {
-            setTitle(getString(R.string.menu_history));
-        }
-
-        else if(backStateName.equals(new CurrentTaskFragment().getClass().getName()))
-        {
-            setTitle(getString(R.string.menu_current_task));
-        }
-
-        else if(backStateName.equals(new SettingsFragment().getClass().getName()))
-        {
-            setTitle(getString(R.string.menu_settings));
-        }
-
-        else if(backStateName.equals(new AboutFragment().getClass().getName()))
-        {
-            setTitle(getString(R.string.menu_about));
-        }
-
-        else if(backStateName.equals(new LaunchNewTaskFragment().getClass().getName()))
-        {
-            setTitle(getString(R.string.menu_launch_manual));
         }
     }
 
@@ -499,7 +456,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NdefRecord ndefRecord = NdefRecord.createTextRecord(null, content);
 
         //Creates a record of what app to start when the tag is read.
-        NdefRecord appRecord =  NdefRecord.createApplicationRecord("nsimhie.prototype..AboutFragment");
+        NdefRecord appRecord =  NdefRecord.createApplicationRecord("nsimhie.prototype");
         NdefMessage ndefMessage = new NdefMessage(new NdefRecord[] {ndefRecord, appRecord});
 
         //NdefMessage ndefMessage = new NdefMessage(new NdefRecord[] {ndefRecord});
